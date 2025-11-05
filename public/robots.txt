@@ -1,0 +1,16 @@
+# robots.txt for HB Suites Website
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Disallow admin or API endpoints if they exist
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://hbsuites.com/sitemap.xml
+
+# Crawl-delay (optional - adjust based on server capacity)
+# Crawl-delay: 1
+

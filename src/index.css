@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #FFFFFF;
+
+  /* Custom Background Colors */
+  --bg-color-light: #FFFFFF;
+  --bg-color-dull: #FAFAFA;
+  --bg-color-tertiary: #679ECE;
+
+  --input-bg-color: #F9FAFB;
+
+  /* Custom text colors */
+  --text-color: #555555;
+  --heading-color: #222222;
+  --text-secondary-color: #679ECE;
+
+  /* Border */
+  --border-color: #EEEEEE;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-light-custom {
+  background-color: var(--bg-color-light);
+}
+
+.bg-dull-custom {
+  background-color: var(--bg-color-dull);
+}
+
+.bg-tertiary-custom {
+  background-color: var(--bg-color-tertiary);
+}
+
+.input-bg-custom {
+  background-color: var(--input-bg-color);
+}
+
+.text-custom {
+  color: var(--text-color);
+}
+
+.text-secondary-custom {
+  color: var(--text-secondary-color);
+}
+
+.heading-custom {
+  color: var(--heading-color);
+}
+
+.border-custom {
+  border-color: var(--border-color);
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Font Families */
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bebas-neue-regular {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ============ */
+
+.split-char {
+  display: inline-block;
+}
+
+.split-word {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+}
