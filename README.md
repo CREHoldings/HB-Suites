@@ -228,23 +228,12 @@ See [MAINTENANCE_GUIDE.md](./docs/MAINTENANCE_GUIDE.md) for detailed instruction
 
 ## Contributing
 
-1. Make changes to content in `src/config/content.js`
-2. Test changes locally with `npm run dev`
-3. Build for production with `npm run build`
-4. Deploy to hosting platform
-
 ## Support
 
 For detailed instructions, see:
 
-- **Maintenance Guide:** [docs/MAINTENANCE_GUIDE.md](./docs/MAINTENANCE_GUIDE.md)
-- **Content Updates:** Edit `src/config/content.js`
+- **Maintenance Guide:** [docs/MAINTENANCE_GUIDE.md](./docs/MAINTENANCE_GUIDE.md) 
 
 ## License
 
 Private project - All rights reserved.
-
----
-
-**Version:** 1.0.0  
-**Last Updated:** January 2024
