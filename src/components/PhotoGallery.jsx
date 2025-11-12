@@ -7,93 +7,93 @@ export default function PhotoGallery() {
   const photos = [
     {
       id: "01",
-      title: "Luxury Salon Suite Interior",
+      title: "Interior Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%205a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%205b.webp",
       ],
-      category: "Interior",
+      category: "Existing",
     },
     {
       id: "02",
-      title: "Modern Beauty Station",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%209a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%209b.webp",
       ],
-      category: "Interior",
+      category: "Existing",
     },
     {
       id: "03",
-      title: "Professional Workspace",
+      title: "Salon Suite – Move-In Ready",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%207b.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%207c.webp",
       ],
-      category: "Workspace",
+      category: "Fully Furnished",
     },
     {
       id: "04",
-      title: "Elegant Reception Area",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2023a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2023b.webp",
       ],
-      category: "Reception",
+      category: "Existing",
     },
     {
       id: "05",
-      title: "Premium Beauty Chair",
+      title: "Treatment Room",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2021a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2021b.webp",
       ],
-      category: "Equipment",
+      category: "Existing",
     },
     {
       id: "06",
-      title: "Stylish Mirror Setup",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2012a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2012b.webp",
       ],
-      category: "Interior",
+      category: "Existing",
     },
     {
       id: "07",
-      title: "Spa Treatment Room",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%2011a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%2011b.webp",
       ],
-      category: "Spa",
+      category: "Existing",
     },
     {
       id: "08",
-      title: "Relaxing Wellness Area",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2019a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2012b.webp",
       ],
-      category: "Spa",
+      category: "Existing",
     },
     {
       id: "09",
-      title: "Luxury Waiting Area",
+      title: "Treatment Room",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2030a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2030b.webp",
       ],
-      category: "Reception",
+      category: "Existing",
     },
     {
       id: "10",
-      title: "Premium Hair Styling Station",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2014a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%2014b.webp",
       ],
-      category: "Interior",
+      category: "Existing",
     },
   ];
 

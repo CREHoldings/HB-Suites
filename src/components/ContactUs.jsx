@@ -4,8 +4,6 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(SplitText, ScrollTrigger);
-
 const ContactUs = () => {
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -51,7 +49,7 @@ const ContactUs = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="flex items-center justify-center mb-8 sm:mb-12">
-          <div className="max-w-3xl">
+          <div className="max-w-4xl w-full">
             <h1
               id="contact_heading_title"
               className="text-3xl font-light leading-tight text-center heading-custom bebas-neue-regular md:text-4xl lg:text-5xl"
@@ -60,11 +58,9 @@ const ContactUs = () => {
             </h1>
             <p
               id="contact_heading_description"
-              className="mt-2 text-base md:text-lg text-center sm:text-lg poppins-regular"
+              className="mt-2 text-base md:text-lg text-center sm:text-lg poppins-regular break-words"
             >
-              Contact HB Suites today to discover how our luxury furnished
-              office spaces can provide the professional environment your
-              business deserves.
+              Contact HB Suites today to discover how our luxury furnished office spaces can provide the professional environment your business deserves.
             </p>
           </div>
         </div>
@@ -85,11 +81,11 @@ const ContactUs = () => {
                   <div className="text-sm md:text-base sm:text-base">
                     <h4 className="font-semibold heading-custom">Location</h4>
                     <p className="mt-1">
-                      Premium Business District
+                      1819 N Circle Drive
                       <br />
-                      Professional Office Complex
+                      Colorado Springs, CO
                       <br />
-                      Downtown Area
+                      80909
                     </p>
                   </div>
                 </div>
@@ -101,7 +97,7 @@ const ContactUs = () => {
                   <div className="text-sm md:text-base sm:text-base">
                     <h4 className="font-semibold heading-custom">Phone</h4>
                     <p className="mt-1">
-                      (555) 123-4567
+                     719 602 5511
                       <br />
                       Mon - Fri: 8:00 AM - 6:00 PM
                     </p>
@@ -115,27 +111,7 @@ const ContactUs = () => {
                   <div className="text-sm md:text-base sm:text-base">
                     <h4 className="font-semibold heading-custom">Email</h4>
                     <p className="mt-1">
-                      info@hbsuites.com
-                      <br />
-                      leasing@hbsuites.com
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3 sm:space-x-4">
-                  <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
-                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-secondary-custom" />
-                  </div>
-                  <div className="text-sm md:text-base sm:text-base">
-                    <h4 className="font-semibold heading-custom">
-                      Business Hours
-                    </h4>
-                    <p className="mt-1">
-                      Monday - Friday: 8:00 AM - 6:00 PM
-                      <br />
-                      Saturday: 9:00 AM - 4:00 PM
-                      <br />
-                      Sunday: By Appointment
+                    hbsuitesco@gmail.com
                     </p>
                   </div>
                 </div>
@@ -185,6 +161,25 @@ const ContactUs = () => {
                   className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your email address"
                 />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm md:text-base font-medium">
+                  Business Type *
+                </label>
+                <select
+                  className="w-full p-3 sm:p-4 cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                >
+                  <option value="">Select your business type</option>
+                  <option value="hairstylist">Hairstylist</option>
+                  <option value="esthetician">Esthetician</option>
+                  <option value="massage_therapist">Massage Therapist</option>
+                  <option value="nail_tech">Nail Technician</option>
+                  <option value="cosmetologist">Cosmetologist</option>
+                  <option value="barber">Barber</option>
+                  <option value="spa_therapist">Spa Therapist</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
               <div>

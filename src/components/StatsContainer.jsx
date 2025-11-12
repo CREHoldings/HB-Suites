@@ -8,7 +8,7 @@ export default function StatsContainer() {
   const stats = [
     {
       value: "40+",
-      title: "Premium Office Suites",
+      title: "Premium Beauty and Wellness Suites",
       description:
         "Modern workspaces with cutting-edge technology and flexible terms",
       targetValue: 40,
@@ -22,13 +22,14 @@ export default function StatsContainer() {
       targetValue: 500,
       suffix: "+",
     },
-    {
-      value: "2",
-      title: "Prime Locations",
-      description: "Strategic business addresses across major cities",
-      targetValue: 2,
-      suffix: "",
-    },
+    // Will be enable later
+    // {
+    //   value: "2",
+    //   title: "Prime Locations",
+    //   description: "Strategic business addresses across major cities",
+    //   targetValue: 2,
+    //   suffix: "",
+    // },
   ];
 
   useGSAP(() => {

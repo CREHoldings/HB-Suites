@@ -26,7 +26,7 @@ const Hero = () => {
     const tl = gsap.timeline();
 
     const hero_split = SplitText.create(
-      ["#hero_main_heading", "#hero_subtitle", "#hero_description"],
+      ["#hero_main_heading"],
       { type: "lines", mask: "lines", linesClass: "line" }
     );
 
@@ -39,7 +39,7 @@ const Hero = () => {
       ease: "power2.out",
     });
 
-    // 🔁 Background crossfade + zoom animation
+    // Background crossfade + zoom animation
     tl.call(() => {
       const nextBgRef =
         activeBg.current === 1 ? bgRef1.current : bgRef2.current;
@@ -62,16 +62,12 @@ const Hero = () => {
       // Update text content
       document.getElementById("hero_main_heading").textContent =
         slides[currentSlide].title;
-      document.getElementById("hero_subtitle").textContent =
-        slides[currentSlide].subtitle;
-      document.getElementById("hero_description").textContent =
-        slides[currentSlide].description;
 
       hero_split.revert();
 
       // Recreate split for new text
       const new_split = SplitText.create(
-        ["#hero_main_heading", "#hero_subtitle", "#hero_description"],
+        ["#hero_main_heading"],
         { type: "lines", mask: "lines", linesClass: "line" }
       );
 
@@ -150,18 +146,6 @@ const Hero = () => {
             >
               {slides[currentSlide].title}
             </h1>
-            <h2
-              id="hero_subtitle"
-              className="max-w-md text-xl leading-relaxed poppins-regular"
-            >
-              {slides[currentSlide].subtitle}
-            </h2>
-            <p
-              id="hero_description"
-              className="max-w-md text-xl leading-relaxed poppins-regular"
-            >
-              {slides[currentSlide].description}
-            </p>
           </div>
 
           {/* CTA Button */}

@@ -45,6 +45,7 @@ const Header = () => {
   const navItems = [
     { name: "HOME", href: "#home-section" },
     { name: "SERVICES", href: "#features-section" },
+    { name: "AVAILABLE SUITE", href: "#available-suite-section" },
     { name: "GALLERY", href: "#photo-gallery-section" },
     { name: "ABOUT", href: "#about-section" },
     { name: "CONTACT", href: "#contact-section" },
@@ -110,7 +111,7 @@ const Header = () => {
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <button
-                  className="flex items-center py-2 space-x-1 font-medium transition-colors duration-200 hover:text-secondary-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom focus:ring-offset-2 rounded"
+                  className="flex items-center py-2 space-x-1 font-medium transition-colors duration-200 hover:text-secondary-custom focus:outline-none rounded"
                   onClick={() => scrollToSection(item.href)}
                   aria-label={`Navigate to ${item.name} section`}
                 >

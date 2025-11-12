@@ -87,6 +87,16 @@ const Footer = () => {
               >
                 Contact
               </a>
+              <a
+                href="#available-suite-section"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("#available-suite-section");
+                }}
+                className="text-left lg:text-center text-xs md:text-sm text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Available Suite
+              </a>
             </div>
           </div>
         </div>

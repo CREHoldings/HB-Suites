@@ -5,9 +5,68 @@ This guide provides instructions for updating content, managing form submissions
 ## Table of Contents
 
 1. [Updating Content](#updating-content)
-2. [Managing Contact Form Submissions](#managing-contact-form-submissions)
-3. [Deploying Updates](#deploying-updates)
-4. [Troubleshooting](#troubleshooting)
+2. [Managing Suite Availability](#managing-suite-availability)
+3. [Managing Contact Form Submissions](#managing-contact-form-submissions)
+4. [Deploying Updates](#deploying-updates)
+5. [Troubleshooting](#troubleshooting)
+
+---
+
+## Managing Suite Availability
+
+### Overview
+
+The Available Suites section loads suite data from `public/suites.json`. You can update suite statuses without touching the code by editing this file.
+
+### Updating Suite Statuses
+
+1. **Navigate to the file:**
+   - Go to `public/suites.json` in your project directory
+
+2. **Edit the JSON file:**
+   ```json
+   [
+     { "id": "Suite 1", "status": "available" },
+     { "id": "Suite 2", "status": "leased" },
+     { "id": "Suite 3", "status": "available" }
+   ]
+   ```
+
+3. **Change suite statuses:**
+   - Change `"status": "available"` to `"status": "leased"` for occupied suites
+   - Change `"status": "leased"` to `"status": "available"` for available suites
+
+4. **Save and deploy:**
+   - Save the file
+   - Deploy the updated file to your web server
+
+### Special Status Values
+
+The system handles special status values differently:
+
+- If a suite has `"status": "8"`, it will be treated as `"leased"`
+- If a suite has any other invalid status, it will be treated as `"available"`
+- Only `"available"` and `"leased"` are considered valid standard statuses
+
+### Suite Card Display
+
+The suites are displayed in a responsive grid with the following layout:
+- Mobile: 3 columns
+- Tablet: 4 columns  
+- Desktop: 6 columns
+
+Each card shows:
+- Suite identifier (e.g., "Suite 1")
+- Status indicator (checkmark for available, X for leased)
+- Status badge ("Available" or "Leased")
+
+### Validation
+
+The system validates the JSON data to ensure:
+- The file contains a valid JSON array
+- Each suite object has an `id` and `status` property
+- Invalid objects are filtered out with warnings in the console
+- Invalid status values are handled as described in the special values section
 
 ---
 

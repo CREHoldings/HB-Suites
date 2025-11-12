@@ -6,6 +6,7 @@ import AboutUs from "./components/AboutUs";
 import PhotoGallery from "./components/PhotoGallery";
 import SalonSuiteFeatures from "./components/SalonSuiteFeatures";
 import StatsContainer from "./components/StatsContainer";
+import AvailableSuites from "./components/AvailableSuites";
 import gsap from "gsap";
 import {
   Flip,
@@ -35,6 +36,7 @@ function App() {
         <StatsContainer />
         <AboutUs />
         <SalonSuiteFeatures />
+        <AvailableSuites />
         <PhotoGallery />
         <ContactUs />
         <Footer />

@@ -69,7 +69,7 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <section id="about-section" className="min-h-screen bg-light-custom">
+    <section id="about-section" className="min-h-screen mb-20 bg-light-custom">
       <div className="py-20 mx-auto md:px-8 max-w-7xl lg:px-16">
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 h-fit lg:h-[450px] gap-12 lg:grid-cols-2 lg:gap-20">
@@ -144,12 +144,27 @@ const AboutUs = () => {
               id="about_p2"
               className="mb-10 text-base md:text-lg poppins-regular"
             >
-              HB Suites offers individual suites for health and beauty
-              professionals including hair stylists, estheticians, massage
-              therapists, chiropractors, and more. One comprehensive monthly
-              payment covers rent, utilities (heat, water, electricity), and
-              Wi-Fi connectivity, empowering you to focus entirely on running
-              your business on your terms.
+              Furnished Salon and Wellness Suites
+              <br />
+              Ideal for:
+              <br />
+              • Hairstylists
+              <br />
+              • Estheticians
+              <br />
+              • Massage Therapists and more
+              <br />
+              Wi-Fi and Utilities Included
+              <br />
+              On-Site Laundry Facilities
+              <br />
+              Comfortable Break & Seating Areas
+              <br />
+              Flexible Month-to-Month Leases
+              <br />
+              Easily Customizable Suites
+              <br />
+              Ample Free Parking
             </p>
 
             <div>

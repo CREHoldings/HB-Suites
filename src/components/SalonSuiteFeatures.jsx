@@ -8,7 +8,7 @@ import Autoplay from "embla-carousel-autoplay";
 const SalonSuiteFeatures = () => {
   const features = [
     {
-      title: "High Quality",
+      title: "Elegant Common Hallway",
       description:
         "Every suite comes furnished with high-quality storage cabinets and comfortable chairs, not to mention the beautiful laminate wood floors. Simply add your industry-specific equipment and you're ready to go!",
       image: [
@@ -18,18 +18,10 @@ const SalonSuiteFeatures = () => {
       alt: [
         "Luxurious salon interior with modern furniture",
         "Elegant treatment room setting",
-      ],
-      hoverFeatures: [
-        "Fully Furnished Salon Suites",
-        "Salon Suite equipped with styling station with chair, shampoo bowl with chair, separate color bar with sink",
-        "Spa Suite equipped with sink and cabinets",
-        "Hot water system",
-        "Air Conditioning",
-        "Keys to your own Private Suite",
-      ],
+      ], 
     },
     {
-      title: "Customizable",
+      title: "Comfortable Seating Areas",
       description:
         "Enjoy freedom and privacy to customize your suite according to your needs and tastes. You'll never have to pay for something you don't need or be limited to the brands and items you can use or sell.",
       image: [
@@ -40,17 +32,9 @@ const SalonSuiteFeatures = () => {
         "Customizable salon workspace with personal touches",
         "Flexible workspace design",
       ],
-      hoverFeatures: [
-        "Freedom and Flexibility",
-        "Set your own Hours and Prices",
-        "Sell your own Retail; keep 100% Profit!",
-        "Two dedicated and secured Wi-Fi networks (one for you, and one for your guests)",
-        "On Site Washer and Dryer",
-        "Drama-Free",
-      ],
     },
     {
-      title: "Convenient",
+      title: "Highly Customizable Suites",
       description:
         'Set your own schedule and choose when you work. Build your own clientele without the hassle of property ownership or "salon drama". No long term leases and hidden fees means you are 100% in charge of your business.',
       image: [
@@ -60,13 +44,6 @@ const SalonSuiteFeatures = () => {
       alt: [
         "Professional managing their schedule and business",
         "Modern business environment",
-      ],
-      hoverFeatures: [
-        "No Long Term Leases",
-        "Secured and Monitored lobby doors",
-        "Advanced Security System with video surveillance",
-        "All utilities included",
-        "Ample Free Parking",
       ],
     },
   ];
@@ -118,21 +95,44 @@ const SalonSuiteFeatures = () => {
     // Create animations for each feature section with individual scroll triggers
     features.forEach((feature, index) => {
       const isMiddle = index === 1;
-      // Create SplitText for this feature's title
-      const titleSplit = SplitText.create(`#feature-title-${index}`, {
-        type: "lines",
-        mask: "lines",
-        linesClass: "line",
-      });
 
-      // Set initial state for this feature's elements
-      gsap.set(`#feature-tag-${index}`, { x: isMiddle ? 50 : -50, opacity: 0 });
-      if (isMiddle) {
-        gsap.set(titleSplit.lines, { opacity: 0, x: 50 });
-        gsap.set(`#feature-description-${index} li`, { opacity: 0, x: 50 });
-      } else {
-        gsap.set(titleSplit.lines, { opacity: 0, y: 30 });
-        gsap.set(`#feature-description-${index} li`, { opacity: 0, y: 30 });
+      const tagSelector = `#feature-tag-${index}`;
+      const titleSelector = `#feature-title-${index}`;
+      const descSelector = `#feature-description-${index} li`;
+
+      const tagEl = document.querySelector(tagSelector);
+      const titleEl = document.querySelector(titleSelector);
+      const descEls = document.querySelectorAll(descSelector);
+
+      if (!tagEl && !titleEl && descEls.length === 0) {
+        // If the content section is empty, skip animations for this feature
+        return;
+      }
+
+      let titleSplit;
+      if (titleEl) {
+        titleSplit = SplitText.create(titleSelector, {
+          type: "lines",
+          mask: "lines",
+          linesClass: "line",
+        });
+      }
+
+      // Set initial state for this feature's elements, only if they exist
+      if (tagEl) gsap.set(tagSelector, { x: isMiddle ? 50 : -50, opacity: 0 });
+      if (titleSplit) {
+        if (isMiddle) {
+          gsap.set(titleSplit.lines, { opacity: 0, x: 50 });
+        } else {
+          gsap.set(titleSplit.lines, { opacity: 0, y: 30 });
+        }
+      }
+      if (descEls.length) {
+        if (isMiddle) {
+          gsap.set(descSelector, { opacity: 0, x: 50 });
+        } else {
+          gsap.set(descSelector, { opacity: 0, y: 30 });
+        }
       }
 
       // Create timeline for this feature section
@@ -145,15 +145,17 @@ const SalonSuiteFeatures = () => {
         },
       });
 
-      // Animate this feature section
-      featureTl
-        .to(`#feature-tag-${index}`, {
+      // Animate this feature section (only existing elements)
+      if (tagEl) {
+        featureTl.to(tagSelector, {
           x: 0,
           opacity: 1,
           duration: 0.6,
           ease: "power2.out",
-        })
-        .to(
+        });
+      }
+      if (titleSplit) {
+        featureTl.to(
           titleSplit.lines,
           {
             opacity: 1,
@@ -163,10 +165,12 @@ const SalonSuiteFeatures = () => {
             duration: 0.6,
             ease: "power2.out",
           },
-          "-=0.4"
-        )
-        .to(
-          `#feature-description-${index} li`,
+          tagEl ? "-=0.4" : undefined
+        );
+      }
+      if (descEls.length) {
+        featureTl.to(
+          descSelector,
           {
             opacity: 1,
             x: 0,
@@ -175,8 +179,9 @@ const SalonSuiteFeatures = () => {
             duration: 0.6,
             ease: "power2.out",
           },
-          "-=0.4"
+          titleSplit || tagEl ? "-=0.4" : undefined
         );
+      }
     });
 
     // GSAP image carousel removed; Embla handles slide looping
@@ -220,34 +225,7 @@ const SalonSuiteFeatures = () => {
               }`}
             >
               {/* Content Section */}
-              <div className="flex-1 w-full px-4 py-6 space-y-4 md:px-6 lg:px-8 md:py-8 md:space-y-6 bg-light-custom">
-                <div
-                  id={`feature-tag-${index}`}
-                  className="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 space-x-2 rounded-full bg-gradient-to-r from-purple-100 to-pink-100"
-                >
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></span>
-                  <span className="text-xs font-medium md:text-sm text-custom poppins-regular">
-                    Feature {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <h2
-                  id={`feature-title-${index}`}
-                  className="text-2xl font-bold leading-tight md:text-3xl lg:text-4xl heading-custom bebas-neue-regular"
-                >
-                  {feature.title}
-                </h2>
-
-                <ul
-                  id={`feature-description-${index}`}
-                  className="space-y-2 text-sm leading-relaxed md:text-base text-custom poppins-regular"
-                >
-                  <li className="flex items-start poppins-regular">
-                    <span className="w-2 h-2 mt-1.5 mr-2 bg-[#222222] rounded-full flex-shrink-0"></span>
-                    <span>{feature.description}</span>
-                  </li>
-                </ul>
-              </div>
+              <div className="flex-1 w-full px-4 py-6 space-y-4 md:px-6 lg:px-8 md:py-8 md:space-y-6"></div>
 
               {/* Image Section with Carousel (Embla) */}
               <div className="relative flex-1 w-full group">
@@ -287,34 +265,12 @@ const SalonSuiteFeatures = () => {
                   <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 
                   {/* Slide up overlay with features */}
-                  <div className="absolute bottom-0 z-10 left-0 right-0 bg-linear-to-t from-black/95 via-black/80 to-transparent text-white transition-all duration-500 ease-out transform translate-y-[calc(100%-3.5rem)] md:translate-y-[calc(100%-4rem)] group-hover:translate-y-0">
+                  <div className="absolute bottom-0 z-10 left-0 right-0 text-white">
                     <div className="p-4 space-y-2 md:p-6 md:space-y-3">
                       {/* Always visible title */}
                       <h3 className="text-base font-semibold uppercase md:text-lg lg:text-xl bebas-neue-regular">
-                        {feature.title} Features
-                      </h3>
-
-                      {/* Features that slide up on hover */}
-                      <div className="space-y-2 transition-opacity duration-300 delay-200 opacity-0 poppins-regular group-hover:opacity-100">
-                        {feature.hoverFeatures.map(
-                          (featureText, featureIndex) => (
-                            <div
-                              key={featureIndex}
-                              className="flex items-start space-x-2 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
-                              style={{
-                                transitionDelay: `${
-                                  300 + featureIndex * 100
-                                }ms`,
-                              }}
-                            >
-                              <Plus className="w-3 h-3 md:w-4 md:h-4 mt-0.5 text-secondary-custom flex-shrink-0" />
-                              <span className="text-xs leading-relaxed md:text-sm">
-                                {featureText}
-                              </span>
-                            </div>
-                          )
-                        )}
-                      </div>
+                        {feature.title}
+                      </h3> 
                     </div>
                   </div>
                 </div>
