@@ -34,9 +34,6 @@
   { "id": "Suite 33", "status": "available" },
   { "id": "Suite 34", "status": "available" },
   { "id": "Suite 35", "status": "available" },
-  { "id": "Suite 36", "status": "8" },
-  { "id": "Suite 37", "status": "leased" },
-  { "id": "Suite 38", "status": "available" },
-  { "id": "Suite 39", "status": "available" },
-  { "id": "Suite 40", "status": "leased" }
+  { "id": "Suite 36", "status": "leased" },
+  { "id": "Suite 37", "status": "leased" }
 ]
