@@ -77,6 +77,24 @@
     <meta name="theme-color" content="#000000" />
   </head>
   <body>
+    <!-- Hidden form for Netlify Forms detection -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="email" name="email" />
+      <select name="businessType">
+        <option value="hairstylist">Hairstylist</option>
+        <option value="esthetician">Esthetician</option>
+        <option value="massage_therapist">Massage Therapist</option>
+        <option value="nail_tech">Nail Technician</option>
+        <option value="cosmetologist">Cosmetologist</option>
+        <option value="barber">Barber</option>
+        <option value="spa_therapist">Spa Therapist</option>
+        <option value="other">Other</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

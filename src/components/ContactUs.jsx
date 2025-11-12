@@ -49,18 +49,20 @@ const ContactUs = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="flex items-center justify-center mb-8 sm:mb-12">
-          <div className="max-w-4xl w-full">
+          <div className="max-w-3xl w-full">
             <h1
               id="contact_heading_title"
-              className="text-3xl font-light leading-tight text-center heading-custom bebas-neue-regular md:text-4xl lg:text-5xl"
+              className="text-4xl font-light leading-tight text-center heading-custom bebas-neue-regular md:text-4xl lg:text-5xl"
             >
               Ready to Elevate Your Business?
             </h1>
             <p
               id="contact_heading_description"
-              className="mt-2 text-base md:text-lg text-center sm:text-lg poppins-regular break-words"
+              className="mt-2 text-base md:text-lg text-center sm:text-lg poppins-regular wrap-break-word"
             >
-              Contact HB Suites today to discover how our luxury furnished office spaces can provide the professional environment your business deserves.
+              Contact HB Suites today to discover how our luxury furnished
+              office spaces can provide the professional environment your
+              business deserves.
             </p>
           </div>
         </div>
@@ -97,7 +99,7 @@ const ContactUs = () => {
                   <div className="text-sm md:text-base sm:text-base">
                     <h4 className="font-semibold heading-custom">Phone</h4>
                     <p className="mt-1">
-                     719 602 5511
+                      719 602 5511
                       <br />
                       Mon - Fri: 8:00 AM - 6:00 PM
                     </p>
@@ -110,9 +112,7 @@ const ContactUs = () => {
                   </div>
                   <div className="text-sm md:text-base sm:text-base">
                     <h4 className="font-semibold heading-custom">Email</h4>
-                    <p className="mt-1">
-                    hbsuitesco@gmail.com
-                    </p>
+                    <p className="mt-1">hbsuitesco@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -129,45 +129,86 @@ const ContactUs = () => {
               the form below and we'll contact you within 24 hours.
             </p>
 
-            <div className="space-y-4 sm:space-y-6 poppins-regular">
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              className="space-y-4 sm:space-y-6 poppins-regular"
+            >
+              {/* Hidden field for Netlify Forms */}
+              <input type="hidden" name="form-name" value="contact" />
+
+              {/* Honeypot field for spam protection */}
+              <p className="hidden">
+                <label>
+                  Don't fill this out if you're human:{" "}
+                  <input name="bot-field" />
+                </label>
+              </p>
+
               <div>
-                <label className="block mb-2 text-sm md:text-base font-medium">
+                <label
+                  htmlFor="firstName"
+                  className="block mb-2 text-sm md:text-base font-medium"
+                >
                   First Name *
                 </label>
                 <input
                   type="text"
+                  id="firstName"
+                  name="firstName"
+                  required
                   className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your first name"
                 />
               </div>
 
               <div>
-                <label className="block mb-2 text-sm md:text-base font-medium">
+                <label
+                  htmlFor="lastName"
+                  className="block mb-2 text-sm md:text-base font-medium"
+                >
                   Last Name *
                 </label>
                 <input
                   type="text"
+                  id="lastName"
+                  name="lastName"
+                  required
                   className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your last name"
                 />
               </div>
 
               <div>
-                <label className="block mb-2 text-sm md:text-base font-medium">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm md:text-base font-medium"
+                >
                   Email *
                 </label>
                 <input
                   type="email"
+                  id="email"
+                  name="email"
+                  required
                   className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your email address"
                 />
               </div>
 
               <div>
-                <label className="block mb-2 text-sm md:text-base font-medium">
+                <label
+                  htmlFor="businessType"
+                  className="block mb-2 text-sm md:text-base font-medium"
+                >
                   Business Type *
                 </label>
                 <select
+                  id="businessType"
+                  name="businessType"
+                  required
                   className="w-full p-3 sm:p-4 cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                 >
                   <option value="">Select your business type</option>
@@ -183,20 +224,24 @@ const ContactUs = () => {
               </div>
 
               <div>
-                <label className="block mb-2 text-sm md:text-base font-medium">
+                <label
+                  htmlFor="message"
+                  className="block mb-2 text-sm md:text-base font-medium"
+                >
                   Comment or Message *
                 </label>
                 <textarea
+                  id="message"
+                  name="message"
+                  required
                   className="w-full h-28 sm:h-32 p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom resize-none focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Tell us about your requirements"
                 ></textarea>
               </div>
 
               <button
+                type="submit"
                 className="w-full px-6 py-3 text-sm md:text-base sm:text-base font-semibold text-white transition-colors bg-black hover:bg-black/90"
-                onClick={() =>
-                  alert("Contact form functionality would be implemented here")
-                }
               >
                 Schedule Your Tour
               </button>
@@ -205,7 +250,7 @@ const ContactUs = () => {
                 * Required fields. We respect your privacy and will never share
                 your information.
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
