@@ -198,29 +198,48 @@ const ContactUs = () => {
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="businessType"
-                  className="block mb-2 text-sm md:text-base font-medium"
-                >
-                  Business Type *
-                </label>
-                <select
-                  id="businessType"
-                  name="businessType"
-                  required
-                  className="w-full p-3 sm:p-4 cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
-                >
-                  <option value="">Select your business type</option>
-                  <option value="hairstylist">Hairstylist</option>
-                  <option value="esthetician">Esthetician</option>
-                  <option value="massage_therapist">Massage Therapist</option>
-                  <option value="nail_tech">Nail Technician</option>
-                  <option value="cosmetologist">Cosmetologist</option>
-                  <option value="barber">Barber</option>
-                  <option value="spa_therapist">Spa Therapist</option>
-                  <option value="other">Other</option>
-                </select>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="phoneNumber"
+                    className="block mb-2 text-sm md:text-base font-medium"
+                  >
+                    Contact Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    required
+                    pattern="^[0-9+()\\-\\s]{7,}$"
+                    className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                    placeholder="Example: (555) 123-4567"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="businessType"
+                    className="block mb-2 text-sm md:text-base font-medium"
+                  >
+                    Business Type *
+                  </label>
+                  <select
+                    id="businessType"
+                    name="businessType"
+                    required
+                    className="w-full p-3  cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  >
+                    <option value="">Select your business type</option>
+                    <option value="hairstylist">Hairstylist</option>
+                    <option value="esthetician">Esthetician</option>
+                    <option value="massage_therapist">Massage Therapist</option>
+                    <option value="nail_tech">Nail Technician</option>
+                    <option value="cosmetologist">Cosmetologist</option>
+                    <option value="barber">Barber</option>
+                    <option value="spa_therapist">Spa Therapist</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
               </div>
 
               <div>

@@ -18,7 +18,7 @@ const SalonSuiteFeatures = () => {
       alt: [
         "Luxurious salon interior with modern furniture",
         "Elegant treatment room setting",
-      ], 
+      ],
     },
     {
       title: "Comfortable Seating Areas",
@@ -220,16 +220,13 @@ const SalonSuiteFeatures = () => {
             <div
               id={`feature-section-${index}`}
               key={index}
-              className={`flex flex-col lg:min-h-[400px] lg:flex-row items-stretch gap-6 md:gap-8 lg:gap-12 w-full ${
+              className={`flex flex-col lg:min-h-[400px] lg:flex-row items-stretch gap-4 md:gap-6 lg:gap-10 w-full ${
                 index % 2 === 1 ? "lg:flex-row-reverse" : ""
               }`}
             >
-              {/* Content Section */}
-              <div className="flex-1 w-full px-4 py-6 space-y-4 md:px-6 lg:px-8 md:py-8 md:space-y-6"></div>
-
               {/* Image Section with Carousel (Embla) */}
-              <div className="relative flex-1 w-full group">
-                <div className="relative w-full h-64 overflow-hidden transition-transform duration-700 ease-out bg-black shadow-2xl sm:h-80 lg:h-96">
+              <div className="relative w-full lg:w-3/4 group">
+                <div className="relative w-full h-64 overflow-hidden transition-transform duration-700 ease-out bg-black shadow-2xl sm:h-80 lg:h-[450px]">
                   <div
                     className="w-full h-full embla"
                     ref={emblaRefs[index]}
@@ -262,7 +259,7 @@ const SalonSuiteFeatures = () => {
                       className="w-24 select-none opacity-20 sm:w-32 md:w-40 lg:w-56"
                     />
                   </div>
-                  <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 transition-opacity duration-500 opacity-0 bg-linear-to-t from-black/20 to-transparent"></div>
 
                   {/* Slide up overlay with features */}
                   <div className="absolute bottom-0 z-10 left-0 right-0 text-white">
@@ -270,11 +267,14 @@ const SalonSuiteFeatures = () => {
                       {/* Always visible title */}
                       <h3 className="text-base font-semibold uppercase md:text-lg lg:text-xl bebas-neue-regular">
                         {feature.title}
-                      </h3> 
+                      </h3>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Content Section */}
+              <div className="w-full lg:w-1/4"></div>
             </div>
           ))}
         </div>

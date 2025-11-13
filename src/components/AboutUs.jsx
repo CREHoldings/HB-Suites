@@ -69,7 +69,7 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <section id="about-section" className="min-h-screen mb-20 bg-light-custom">
+    <section id="about-section" className="min-h-screen pb-20 bg-light-custom">
       <div className="py-20 mx-auto md:px-8 max-w-7xl lg:px-16">
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 h-fit lg:h-[450px] gap-12 lg:grid-cols-2 lg:gap-20">
@@ -124,7 +124,7 @@ const AboutUs = () => {
           </div>
 
           {/* Right - Content */}
-          <div className="flex flex-col justify-center p-4 text-custom ">
+          <div className="flex flex-col justify-center p-4 lg:p-0 text-custom ">
             <h1
               id="about_heading"
               className="text-4xl font-light leading-tight heading-custom bebas-neue-regular md:text-4xl lg:text-5xl"
@@ -134,10 +134,10 @@ const AboutUs = () => {
 
             <p
               id="about_p1"
-              className="mb-4 text-base md:text-lg poppins-regular"
+              className="mb-4 text-base text-wrap md:text-lg poppins-regular"
             >
-              Modern, all-inclusive office spaces built to elevate professionals
-              and entrepreneurs.
+              Modern, all-inclusive beauty and wellness spaces built to elevate
+              professionals and entrepreneurs.
             </p>
 
             <p
@@ -148,12 +148,9 @@ const AboutUs = () => {
               <br />
               Ideal for:
               <br />
-              • Hairstylists
-              <br />
-              • Estheticians
-              <br />
-              • Massage Therapists and more
-              <br />
+              <span className="ml-4 block">• Hairstylists</span>
+              <span className="ml-4 block">• Estheticians</span>
+              <span className="ml-4 block">• Massage Therapists and more</span>
               Wi-Fi and Utilities Included
               <br />
               On-Site Laundry Facilities

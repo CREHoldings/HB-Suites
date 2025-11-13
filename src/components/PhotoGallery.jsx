@@ -7,7 +7,7 @@ export default function PhotoGallery() {
   const photos = [
     {
       id: "01",
-      title: "Interior Salon Suite",
+      title: "Salon Suite",
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%205a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Suite%205b.webp",
@@ -25,7 +25,7 @@ export default function PhotoGallery() {
     },
     {
       id: "03",
-      title: "Salon Suite – Move-In Ready",
+      title: ["Salon Suite", "Move-In Ready"],
       image: [
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%207b.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%207c.webp",
@@ -195,7 +195,9 @@ export default function PhotoGallery() {
             {/* First image with conditional opacity */}
             <img
               src={photo.image[0]}
-              alt={`${photo.title} - View 1`}
+              alt={`${
+                Array.isArray(photo.title) ? photo.title.join(" ") : photo.title
+              } - View 1`}
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
                 currentImageIndices[index] === 0 ? "opacity-100" : "opacity-0"
               }`}
@@ -207,7 +209,9 @@ export default function PhotoGallery() {
             {/* Second image with conditional opacity */}
             <img
               src={photo.image[1]}
-              alt={`${photo.title} - View 2`}
+              alt={`${
+                Array.isArray(photo.title) ? photo.title.join(" ") : photo.title
+              } - View 2`}
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
                 currentImageIndices[index] === 1 ? "opacity-100" : "opacity-0"
               }`}
@@ -253,7 +257,16 @@ export default function PhotoGallery() {
                     {photo.category}
                   </div>
                   <h3 className="text-2xl font-light leading-tight text-white wrap-break-word md:text-3xl bebas-neue-regular lg:text-4xl">
-                    {photo.title}
+                    {Array.isArray(photo.title)
+                      ? photo.title.map((line, lineIndex) => (
+                          <span
+                            key={`${photo.id}-${lineIndex}`}
+                            className="block"
+                          >
+                            {line}
+                          </span>
+                        ))
+                      : photo.title}
                   </h3>
                 </div>
               </div>
