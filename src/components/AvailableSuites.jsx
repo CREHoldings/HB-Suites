@@ -39,9 +39,9 @@ const AvailableSuites = () => {
         {/* Floorplan Display */}
         <div className="mb-12">
           {/* Floorplan Image */}
-          <div className="relative bg-white border-2 border-custom flex items-center justify-center mb-6 max-h-[600px] overflow-hidden">
+          <div className="relative bg-white flex items-center justify-center mb-6 max-h-[600px] overflow-hidden">
             <img
-              src="https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Floorplan%20.webp"
+              src="https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Floorplan%20%20(1).webp"
               alt="HB Suites Floor Plan"
               className="w-full h-auto object-contain max-h-[600px]"
               loading="lazy"

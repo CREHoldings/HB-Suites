@@ -1,10 +1,10 @@
 export const suiteOccupancy = [
-  { id: "5", status: "leased", position: { top: "10%", left: "10%" } },
+  { id: "5", status: "leased", position: { top: "10%", left: "9%" } },
   { id: "38", status: "leased", position: { top: "10%", left: "21.5%" } },
   { id: "26", status: "leased", position: { top: "10%", left: "31.5%" } },
   { id: "17", status: "leased", position: { top: "10%", left: "41.5%" } },
   { id: "18", status: "leased", position: { top: "10%", left: "51.5%" } },
-  { id: "19", status: "leased", position: { top: "10%", left: "60%" } }, //.....
+  { id: "19", status: "leased", position: { top: "10%", left: "60%" } },
   { id: "22", status: "leased", position: { top: "10%", left: "70%" } },
   { id: "23", status: "leased", position: { top: "10%", left: "77%" } },
   { id: "24", status: "leased", position: { top: "10%", left: "85%" } },
