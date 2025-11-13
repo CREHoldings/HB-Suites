@@ -1,5 +1,6 @@
 import { CheckCircle, XCircle } from "lucide-react";
-import { suiteOccupancy } from "../data/suiteOccupancy";
+import { useState, useEffect } from "react";
+import { suitePositions } from "../data/suiteOccupancy";
 
 const statusConfig = {
   available: {
@@ -15,7 +16,31 @@ const statusConfig = {
 };
 
 const AvailableSuites = () => {
-  const suitesOnPlan = suiteOccupancy.filter(
+  const [suiteData, setSuiteData] = useState([]);
+
+  useEffect(() => {
+    // Fetch suite status from JSON file
+    fetch("/suite-status.json")
+      .then((response) => response.json())
+      .then((data) => {
+        // Merge status data with position data
+        const mergedData = suitePositions.map((positionData) => {
+          const statusData = data.suites.find((s) => s.id === positionData.id);
+          return {
+            ...positionData,
+            status: statusData?.status || "leased", // Default to 'leased' if not found
+          };
+        });
+        setSuiteData(mergedData);
+      })
+      .catch((error) => {
+        console.error("Error loading suite status:", error);
+        // Fallback: use positions with default status
+        setSuiteData(suitePositions.map((p) => ({ ...p, status: "leased" })));
+      });
+  }, []);
+
+  const suitesOnPlan = suiteData.filter(
     (suite) => suite.position && statusConfig[suite.status]
   );
 
@@ -39,11 +64,14 @@ const AvailableSuites = () => {
         {/* Floorplan Display */}
         <div className="mb-12">
           {/* Floorplan Image */}
-          <div className="relative bg-white flex items-center justify-center mb-6 max-h-[600px] overflow-hidden">
+          <div
+            className="relative bg-white w-full"
+            style={{ aspectRatio: "16/9" }}
+          >
             <img
               src="https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Floorplan%20%20(1).webp"
               alt="HB Suites Floor Plan"
-              className="w-full h-auto object-contain max-h-[600px]"
+              className="absolute inset-0 w-full h-full object-contain"
               loading="lazy"
             />
             <div className="absolute inset-0 pointer-events-none select-none">
@@ -56,7 +84,7 @@ const AvailableSuites = () => {
                       top: suite.position.top,
                       left: suite.position.left,
                     }}
-                    className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md px-2.5 py-1.5 flex items-center gap-1.5 text-[10px] font-semibold tracking-wide ${config.className}`}
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md px-2.5 py-1.5 flex items-center gap-1.5 text-[6px] sm:text-[8px]  lg:text-xs font-semibold tracking-wide ${config.className}`}
                     data-suite-id={suite.id}
                   >
                     <span>{config.label}</span>

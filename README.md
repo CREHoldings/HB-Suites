@@ -232,7 +232,7 @@ See [MAINTENANCE_GUIDE.md](./docs/MAINTENANCE_GUIDE.md) for detailed instruction
 
 For detailed instructions, see:
 
-- **Maintenance Guide:** [docs/MAINTENANCE_GUIDE.md](./docs/MAINTENANCE_GUIDE.md) 
+- **Maintenance Guide:** [docs/SUITE_STATUS_GUIDE.md](./docs/SUITE_STATUS_GUIDE.md)
 
 ## License
 
