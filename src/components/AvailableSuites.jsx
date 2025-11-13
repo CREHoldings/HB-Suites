@@ -1,6 +1,24 @@
 import { CheckCircle, XCircle } from "lucide-react";
+import { suiteOccupancy } from "../data/suiteOccupancy";
+
+const statusConfig = {
+  available: {
+    label: "Available",
+    className: "text-red-600",
+    Icon: CheckCircle,
+  },
+  leased: {
+    label: "Leased",
+    className: "heading-custom",
+    Icon: XCircle,
+  },
+};
 
 const AvailableSuites = () => {
+  const suitesOnPlan = suiteOccupancy.filter(
+    (suite) => suite.position && statusConfig[suite.status]
+  );
+
   return (
     <section
       id="available-suite-section"
@@ -21,13 +39,31 @@ const AvailableSuites = () => {
         {/* Floorplan Display */}
         <div className="mb-12">
           {/* Floorplan Image */}
-          <div className="bg-white border-2 border-custom flex items-center justify-center mb-6 max-h-[500px]">
+          <div className="relative bg-white border-2 border-custom flex items-center justify-center mb-6 max-h-[600px] overflow-hidden">
             <img
-              src="https://ik.imagekit.io/quilkes/Health%20and%20Beauty/HB%20Suites%20Floorplan.webp"
+              src="https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Floorplan%20.webp"
               alt="HB Suites Floor Plan"
               className="w-full h-auto object-contain max-h-[600px]"
               loading="lazy"
             />
+            <div className="absolute inset-0 pointer-events-none select-none">
+              {suitesOnPlan.map((suite) => {
+                const config = statusConfig[suite.status];
+                return (
+                  <div
+                    key={suite.id}
+                    style={{
+                      top: suite.position.top,
+                      left: suite.position.left,
+                    }}
+                    className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md px-2.5 py-1.5 flex items-center gap-1.5 text-[10px] font-semibold tracking-wide ${config.className}`}
+                    data-suite-id={suite.id}
+                  >
+                    <span>{config.label}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* CTA Section */}
