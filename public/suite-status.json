@@ -17,7 +17,7 @@
     { "id": "21", "status": "leased" },
     { "id": "20", "status": "leased" },
     { "id": "27", "status": "leased" },
-    { "id": "26", "status": "available"},
+    { "id": "26", "status": "available" },
     { "id": "3", "status": "leased" },
     { "id": "11", "status": "available" },
     { "id": "4", "status": "leased" },
