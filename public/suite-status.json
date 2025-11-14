@@ -2,7 +2,7 @@
   "suites": [
     { "id": "5", "status": "leased" },
     { "id": "38", "status": "leased" },
-    { "id": "26", "status": "leased" },
+    { "id": "26", "status": "available" },
     { "id": "17", "status": "leased" },
     { "id": "18", "status": "leased" },
     { "id": "19", "status": "leased" },
