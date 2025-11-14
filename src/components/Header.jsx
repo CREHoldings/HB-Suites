@@ -85,7 +85,7 @@ const Header = () => {
 
           {/* Hamburger Menu - Visible only on mobile (not on iPad/tablet) */}
           <button
-            className="p-2 text-white rounded-md md:hidden focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent"
+            className="p-2 text-white rounded-md md:hidden focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={
               isMenuOpen ? "Close navigation menu" : "Open navigation menu"
@@ -169,7 +169,7 @@ const Header = () => {
           {/* Close button */}
           <div className="flex justify-end">
             <button
-              className="p-2 rounded-md text-slate-700 focus:outline-none focus:ring-2 focus:ring-secondary-custom focus:ring-offset-2"
+              className="p-2 rounded-md text-slate-700 focus:outline-none"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close navigation menu"
             >
