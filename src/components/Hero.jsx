@@ -25,10 +25,11 @@ const Hero = () => {
   useGSAP(() => {
     const tl = gsap.timeline();
 
-    const hero_split = SplitText.create(
-      ["#hero_main_heading"],
-      { type: "lines", mask: "lines", linesClass: "line" }
-    );
+    const hero_split = SplitText.create(["#hero_main_heading"], {
+      type: "lines",
+      mask: "lines",
+      linesClass: "line",
+    });
 
     // Fade out existing lines
     tl.to(hero_split.lines, {
@@ -66,10 +67,11 @@ const Hero = () => {
       hero_split.revert();
 
       // Recreate split for new text
-      const new_split = SplitText.create(
-        ["#hero_main_heading"],
-        { type: "lines", mask: "lines", linesClass: "line" }
-      );
+      const new_split = SplitText.create(["#hero_main_heading"], {
+        type: "lines",
+        mask: "lines",
+        linesClass: "line",
+      });
 
       // Fade in new lines (after background settles)
       gsap.fromTo(
@@ -96,12 +98,12 @@ const Hero = () => {
   return (
     <section
       id="home-section"
-      className="relative w-full h-screen overflow-hidden bg-black"
+      className="relative w-full h-[80vh] md:h-screen overflow-hidden bg-black"
     >
       {/* Dual background layers for crossfade */}
       <div
         ref={bgRef1}
-        className="absolute inset-0 transition-all duration-1000 ease-in-out bg-center bg-cover"
+        className="absolute inset-0 transition-all duration-1000 ease-in-out bg-top md:bg-center bg-cover"
         style={{
           backgroundImage: `url(${slides[0].bg})`,
           opacity: 1,
@@ -112,7 +114,7 @@ const Hero = () => {
       />
       <div
         ref={bgRef2}
-        className="absolute inset-0 transition-all duration-1000 ease-in-out bg-center bg-cover opacity-0"
+        className="absolute inset-0 transition-all duration-1000 ease-in-out bg-top md:bg-center bg-cover opacity-0"
         style={{ zIndex: 1 }}
         role="img"
         aria-hidden="true"
