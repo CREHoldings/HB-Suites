@@ -21,6 +21,22 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [currentSlide]);
 
+  // Update background position for second slide on mobile
+  useEffect(() => {
+    const activeBgRef =
+      activeBg.current === 1 ? bgRef1.current : bgRef2.current;
+    if (activeBgRef && currentSlide === 1) {
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        activeBgRef.style.backgroundPosition = "left center";
+        activeBgRef.style.backgroundSize = "125% 100%";
+      } else {
+        activeBgRef.style.backgroundPosition = "center center";
+        activeBgRef.style.backgroundSize = "cover";
+      }
+    }
+  }, [currentSlide]);
+
   // Animate text transitions with SplitText
   useGSAP(() => {
     const tl = gsap.timeline();
@@ -45,6 +61,21 @@ const Hero = () => {
       const nextBgRef =
         activeBg.current === 1 ? bgRef1.current : bgRef2.current;
       nextBgRef.style.backgroundImage = `url(${slides[currentSlide].bg})`;
+
+      // Shift second slide to left on mobile to show more left content
+      if (currentSlide === 1) {
+        if (window.innerWidth < 768) {
+          nextBgRef.style.backgroundPosition = "left center";
+          nextBgRef.style.backgroundSize = "125% 100%";
+        } else {
+          nextBgRef.style.backgroundPosition = "center center";
+          nextBgRef.style.backgroundSize = "cover";
+        }
+      } else {
+        nextBgRef.style.backgroundPosition =
+          window.innerWidth < 768 ? "top center" : "center center";
+        nextBgRef.style.backgroundSize = "cover";
+      }
 
       gsap.set(nextBgRef, { opacity: 0, scale: 1.05, zIndex: 2 });
       gsap.to(nextBgRef, {

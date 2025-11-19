@@ -38,7 +38,7 @@ const SalonSuiteFeatures = () => {
       description:
         'Set your own schedule and choose when you work. Build your own clientele without the hassle of property ownership or "salon drama". No long term leases and hidden fees means you are 100% in charge of your business.',
       image: [
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Hallway%205.webp",
+        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%2011a.webp",
         "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%207.webp",
       ],
       alt: [
