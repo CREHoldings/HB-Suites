@@ -19,7 +19,28 @@ const ContactUs = () => {
     const form = e.target;
     const formData = new FormData(form);
 
+    // Check if we're in development mode
+    const isDevelopment =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
     try {
+      if (isDevelopment) {
+        // Simulate form submission in development
+        console.log(
+          "Form data (development mode):",
+          Object.fromEntries(formData)
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+        setFormState({ submitting: false, success: true, error: false });
+        form.reset();
+        setTimeout(() => {
+          setFormState({ submitting: false, success: false, error: false });
+        }, 5000);
+        return;
+      }
+
+      // Production: Submit to Netlify
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -40,6 +61,7 @@ const ContactUs = () => {
       setFormState({ submitting: false, success: false, error: true });
     }
   };
+
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
