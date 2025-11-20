@@ -269,7 +269,7 @@ const ContactUs = () => {
                     id="phoneNumber"
                     name="phoneNumber"
                     required
-                    pattern="^[0-9+()\-\s]{7,}$"
+                    pattern="[0-9+() -]{7,}"
                     className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                     placeholder="Example: (555) 123-4567"
                   />
