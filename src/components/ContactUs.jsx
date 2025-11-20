@@ -1,10 +1,45 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Phone, Mail } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ContactUs = () => {
+  const [formState, setFormState] = useState({
+    submitting: false,
+    success: false,
+    error: false,
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormState({ submitting: true, success: false, error: false });
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      if (response.ok) {
+        setFormState({ submitting: false, success: true, error: false });
+        form.reset();
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setFormState({ submitting: false, success: false, error: false });
+        }, 5000);
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      setFormState({ submitting: false, success: false, error: true });
+    }
+  };
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -134,6 +169,7 @@ const ContactUs = () => {
               method="POST"
               data-netlify="true"
               netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
               className="space-y-4 sm:space-y-6 poppins-regular"
             >
               {/* Hidden field for Netlify Forms */}
@@ -211,7 +247,7 @@ const ContactUs = () => {
                     id="phoneNumber"
                     name="phoneNumber"
                     required
-                    pattern="^[0-9+()\\-\\s]{7,}$"
+                    pattern="^[0-9+()\-\s]{7,}$"
                     className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                     placeholder="Example: (555) 123-4567"
                   />
@@ -258,11 +294,26 @@ const ContactUs = () => {
                 ></textarea>
               </div>
 
+              {formState.success && (
+                <div className="p-4 text-sm text-center text-green-800 bg-green-100 border border-green-400 rounded-md">
+                  Thank you! Your message has been sent successfully. We'll
+                  contact you within 24 hours.
+                </div>
+              )}
+
+              {formState.error && (
+                <div className="p-4 text-sm text-center text-red-800 bg-red-100 border border-red-400 rounded-md">
+                  Sorry, there was an error submitting your form. Please try
+                  again or contact us directly.
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full px-6 py-3 text-sm md:text-base sm:text-base font-semibold text-white transition-colors bg-black hover:bg-black/90"
+                disabled={formState.submitting}
+                className="w-full px-6 py-3 text-sm md:text-base sm:text-base font-semibold text-white transition-colors bg-black hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Schedule Your Tour
+                {formState.submitting ? "Submitting..." : "Schedule Your Tour"}
               </button>
 
               <p className="text-xs md:text-sm sm:text-sm text-center text-gray-600">
