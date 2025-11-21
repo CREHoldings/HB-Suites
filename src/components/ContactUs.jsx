@@ -159,7 +159,7 @@ const ContactUs = () => {
                   id="firstName"
                   name="firstName"
                   required
-                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom text-black focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your first name"
                 />
               </div>
@@ -176,7 +176,7 @@ const ContactUs = () => {
                   id="lastName"
                   name="lastName"
                   required
-                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom text-black focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your last name"
                 />
               </div>
@@ -193,7 +193,7 @@ const ContactUs = () => {
                   id="email"
                   name="email"
                   required
-                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom text-black focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -209,7 +209,7 @@ const ContactUs = () => {
                   id="businessType"
                   name="businessType"
                   required
-                  className="w-full p-3 sm:p-4 cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 cursor-pointer text-sm md:text-base sm:text-base border border-custom text-black input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                 >
                   <option value="">Select your business type</option>
                   <option value="hairstylist">Hairstylist</option>
@@ -234,7 +234,7 @@ const ContactUs = () => {
                   id="message"
                   name="message"
                   required
-                  className="w-full h-28 sm:h-32 p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom resize-none focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full h-28 sm:h-32 text-black p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom resize-none focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Tell us about your requirements"
                 ></textarea>
               </div>

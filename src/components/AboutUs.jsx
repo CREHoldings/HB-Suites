@@ -3,7 +3,6 @@ import gsap from "gsap";
 import { SplitText, ScrollTrigger } from "gsap/all";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { useEffect } from "react";
 
 const AboutUs = () => {
   const aboutImages = [
