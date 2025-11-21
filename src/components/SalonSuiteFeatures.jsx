@@ -12,8 +12,8 @@ const SalonSuiteFeatures = () => {
       description:
         "Every suite comes furnished with high-quality storage cabinets and comfortable chairs, not to mention the beautiful laminate wood floors. Simply add your industry-specific equipment and you're ready to go!",
       image: [
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Hallway%207.webp",
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Hallway%202.webp",
+        "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Hallway%207.webp",
+        "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/New%20Wing%20Hallway%202.webp",
       ],
       alt: [
         "Luxurious salon interior with modern furniture",
@@ -25,8 +25,8 @@ const SalonSuiteFeatures = () => {
       description:
         "Enjoy freedom and privacy to customize your suite according to your needs and tastes. You'll never have to pay for something you don't need or be limited to the brands and items you can use or sell.",
       image: [
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Hallway%201.webp",
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Hallway%206.webp",
+        "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/New%20Wing%20Hallway%201.webp",
+        "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/New%20Wing%20Hallway%206.webp",
       ],
       alt: [
         "Customizable salon workspace with personal touches",
@@ -38,8 +38,8 @@ const SalonSuiteFeatures = () => {
       description:
         'Set your own schedule and choose when you work. Build your own clientele without the hassle of property ownership or "salon drama". No long term leases and hidden fees means you are 100% in charge of your business.',
       image: [
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%2011a.webp",
-        "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/New%20Wing%20Suite%207.webp",
+        "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/New%20Wing%20Suite%2011a.webp",
+        "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/New%20Wing%20Suite%207.webp",
       ],
       alt: [
         "Professional managing their schedule and business",

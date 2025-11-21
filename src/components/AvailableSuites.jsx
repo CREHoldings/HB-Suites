@@ -69,7 +69,7 @@ const AvailableSuites = () => {
             style={{ aspectRatio: "16/9" }}
           >
             <img
-              src="https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Floorplan%20%20(1).webp"
+              src="https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Floorplan%20%20(1).webp"
               alt="HB Suites Floor Plan"
               className="absolute inset-0 w-full h-full object-contain"
               loading="lazy"

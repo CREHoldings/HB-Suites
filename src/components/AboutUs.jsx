@@ -9,27 +9,27 @@ const AboutUs = () => {
   const aboutImages = [
     {
       id: 1,
-      src: "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Hallway%202.webp",
+      src: "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Hallway%202.webp",
       alt: "Modern salon suite interior",
     },
     {
       id: 2,
-      src: "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Hallway%208.webp",
+      src: "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Hallway%208.webp",
       alt: "Luxury beauty treatment room",
     },
     {
       id: 3,
-      src: "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Hallway%204.webp",
+      src: "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Hallway%204.webp",
       alt: "Professional workspace environment",
     },
     {
       id: 4,
-      src: "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Hallway%205.webp",
+      src: "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Hallway%205.webp",
       alt: "Elegant reception area",
     },
     {
       id: 5,
-      src: "https://ik.imagekit.io/quilkes/Health%20and%20Beauty/Hallway%203.webp",
+      src: "https://ik.imagekit.io/creholdings/Health%20and%20Beauty/Hallway%203.webp",
       alt: "Premium beauty chair setup",
     },
   ];
