@@ -1,10 +1,67 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Phone, Mail } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ContactUs = () => {
+  const [formState, setFormState] = useState({
+    submitting: false,
+    success: false,
+    error: false,
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormState({ submitting: true, success: false, error: false });
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    // Check if we're in development mode
+    const isDevelopment =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    try {
+      if (isDevelopment) {
+        // Simulate form submission in development
+        console.log(
+          "Form data (development mode):",
+          Object.fromEntries(formData)
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+        setFormState({ submitting: false, success: true, error: false });
+        form.reset();
+        setTimeout(() => {
+          setFormState({ submitting: false, success: false, error: false });
+        }, 5000);
+        return;
+      }
+
+      // Production: Submit to Netlify
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      if (response.ok) {
+        setFormState({ submitting: false, success: true, error: false });
+        form.reset();
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setFormState({ submitting: false, success: false, error: false });
+        }, 5000);
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      setFormState({ submitting: false, success: false, error: true });
+    }
+  };
+
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -134,6 +191,7 @@ const ContactUs = () => {
               method="POST"
               data-netlify="true"
               netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
               className="space-y-4 sm:space-y-6 poppins-regular"
             >
               {/* Hidden field for Netlify Forms */}
@@ -159,7 +217,7 @@ const ContactUs = () => {
                   id="firstName"
                   name="firstName"
                   required
-                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom text-black focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your first name"
                 />
               </div>
@@ -176,7 +234,7 @@ const ContactUs = () => {
                   id="lastName"
                   name="lastName"
                   required
-                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom text-black focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your last name"
                 />
               </div>
@@ -193,34 +251,53 @@ const ContactUs = () => {
                   id="email"
                   name="email"
                   required
-                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom text-black focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your email address"
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="businessType"
-                  className="block mb-2 text-sm md:text-base font-medium"
-                >
-                  Business Type *
-                </label>
-                <select
-                  id="businessType"
-                  name="businessType"
-                  required
-                  className="w-full p-3 sm:p-4 cursor-pointer text-sm md:text-base sm:text-base border border-custom text-black input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
-                >
-                  <option value="">Select your business type</option>
-                  <option value="hairstylist">Hairstylist</option>
-                  <option value="esthetician">Esthetician</option>
-                  <option value="massage_therapist">Massage Therapist</option>
-                  <option value="nail_tech">Nail Technician</option>
-                  <option value="cosmetologist">Cosmetologist</option>
-                  <option value="barber">Barber</option>
-                  <option value="spa_therapist">Spa Therapist</option>
-                  <option value="other">Other</option>
-                </select>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="phoneNumber"
+                    className="block mb-2 text-sm md:text-base font-medium"
+                  >
+                    Contact Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    required
+                    pattern="[0-9+() -]{7,}"
+                    className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                    placeholder="Example: (555) 123-4567"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="businessType"
+                    className="block mb-2 text-sm md:text-base font-medium"
+                  >
+                    Business Type *
+                  </label>
+                  <select
+                    id="businessType"
+                    name="businessType"
+                    required
+                    className="w-full p-3  cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  >
+                    <option value="">Select your business type</option>
+                    <option value="hairstylist">Hairstylist</option>
+                    <option value="esthetician">Esthetician</option>
+                    <option value="massage_therapist">Massage Therapist</option>
+                    <option value="nail_tech">Nail Technician</option>
+                    <option value="cosmetologist">Cosmetologist</option>
+                    <option value="barber">Barber</option>
+                    <option value="spa_therapist">Spa Therapist</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
               </div>
 
               <div>
@@ -234,16 +311,31 @@ const ContactUs = () => {
                   id="message"
                   name="message"
                   required
-                  className="w-full h-28 sm:h-32 text-black p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom resize-none focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                  className="w-full h-28 sm:h-32 p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom resize-none focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Tell us about your requirements"
                 ></textarea>
               </div>
 
+              {formState.success && (
+                <div className="p-4 text-sm text-center text-green-800 bg-green-100 border border-green-400 rounded-md">
+                  Thank you! Your message has been sent successfully. We'll
+                  contact you within 24 hours.
+                </div>
+              )}
+
+              {formState.error && (
+                <div className="p-4 text-sm text-center text-red-800 bg-red-100 border border-red-400 rounded-md">
+                  Sorry, there was an error submitting your form. Please try
+                  again or contact us directly.
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full px-6 py-3 text-sm md:text-base sm:text-base font-semibold text-white transition-colors bg-black hover:bg-black/90"
+                disabled={formState.submitting}
+                className="w-full px-6 py-3 text-sm md:text-base sm:text-base font-semibold text-white transition-colors bg-black hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Schedule Your Tour
+                {formState.submitting ? "Submitting..." : "Schedule Your Tour"}
               </button>
 
               <p className="text-xs md:text-sm sm:text-sm text-center text-gray-600">
