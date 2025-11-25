@@ -198,7 +198,7 @@ const SalonSuiteFeatures = () => {
           id="features-heading-container"
           className="flex items-center justify-center mb-8 md:mb-12"
         >
-          <div className="w-full max-w-2xl">
+          <div className="w-full md:max-w-2xl lg:max-w-full">
             <h1
               id="features_heading_title"
               className="text-3xl font-light leading-tight text-center heading-custom bebas-neue-regular md:text-4xl lg:text-5xl"
