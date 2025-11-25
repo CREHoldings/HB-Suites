@@ -1,174 +1,83 @@
-# How to Update Suite Availability Status
+# Maintenance Guide
 
-This guide explains how to update which suites are available or leased by editing a simple JSON file.
+This guide provides instructions for maintaining the HB Suites website, including updating suite availability, managing form submissions, and deploying changes.
 
-## Quick Start
+## Updating Suite Status
 
-The suite status is controlled by one file: `/public/suite-status.json`
+The availability of salon suites is managed through a simple JSON file. This allows for quick updates without needing to modify the website's code.
 
-## Editing on GitHub (Recommended for Non-Technical Users)
+### 1. Locate the Data File
 
-### Step 1: Find the File
+The suite status information is stored in the following file:
 
-1. Go to your GitHub repository
-2. Click on the `public` folder
-3. Click on `suite-status.json`
+`public/suite-status.json`
 
-### Step 2: Edit the File
+### 2. Edit the File
 
-1. Click the **pencil icon (✏️)** at the top right
-2. The file will open in edit mode
-
-### Step 3: Update Suite Status
-
-Find the suite you want to update and change its status:
-
-```json
-{ "id": "11", "status": "available" }  ← Suite is available
-{ "id": "8", "status": "leased" }      ← Suite is leased
-```
-
-**Only change the word after "status":**
-
-- Use `"available"` for available suites
-- Use `"leased"` for leased suites
-
-### Step 4: Save Your Changes
-
-1. Scroll to the bottom
-2. Type a brief description like: "Updated suite 11 to available"
-3. Click **"Commit changes"**
-4. Click **"Commit changes"** again to confirm
-
-### Step 5: Done!
-
-Your changes will appear on the website within a few minutes.
-
----
-
-## Editing Locally (For Developers)
-
-### Step 1: Open the File
-
-Navigate to `/public/suite-status.json` in your code editor
-
-### Step 2: Update Status
-
-Change the status value for any suite:
+Open `suite-status.json` in a text editor. The file contains a list of all suites with their corresponding `id` and `status`.
 
 ```json
 {
   "suites": [
-    { "id": "5", "status": "leased" },
+    { "id": "1", "status": "leased" },
+    { "id": "2", "status": "leased" },
     { "id": "11", "status": "available" },
-    { "id": "8", "status": "available" }
   ]
 }
 ```
 
-### Step 3: Save and Deploy
+### 3. Update the Status
 
-1. Save the file
-2. Commit your changes: `git add public/suite-status.json`
-3. Commit: `git commit -m "Updated suite statuses"`
-4. Push: `git push`
+To change a suite's status, find the corresponding `id` and modify the `status` value.
 
----
+- **To mark a suite as available:** Change the `status` to `"available"`.
+- **To mark a suite as leased:** Change the `status` to `"leased"`.
 
-## Important Rules
-
-### ✅ DO:
-
-- Only change the status values (`"available"` or `"leased"`)
-- Keep the double quotes around status values
-- Save the file after making changes
-
-### ❌ DON'T:
-
-- **Don't change suite IDs** - these match the floorplan
-- **Don't remove commas** between suite entries
-- **Don't remove the last curly brace** `}`
-- **Don't edit** the `/src/data/suiteOccupancy.js` file (this has the floorplan positions)
-
----
-
-## Quick Reference
-
-### Valid Status Values
-
-- `"available"` - Suite is available for lease
-- `"leased"` - Suite is currently leased
-
-### File Structure
-
-```json
-{
-  "suites": [
-    { "id": "SUITE_NUMBER", "status": "available or leased" },
-    { "id": "SUITE_NUMBER", "status": "available or leased" }
-  ]
-}
-```
-
----
-
-## Common Mistakes
-
-### Missing Comma
-
-❌ **Wrong:**
-
-```json
-{ "id": "11", "status": "available" }
-{ "id": "8", "status": "leased" }
-```
-
-✅ **Correct:**
-
-```json
-{ "id": "11", "status": "available" },
-{ "id": "8", "status": "leased" }
-```
-
-### Wrong Quotes
-
-❌ **Wrong:**
+**Example:** To make suite with `id` 11 leased, change:
 
 ```json
 { "id": "11", "status": "available" }
 ```
 
-✅ **Correct:**
+to:
 
 ```json
-{ "id": "11", "status": "available" }
+{ "id": "11", "status": "leased" }
 ```
 
-### Misspelled Status
+### 4. Save and Deploy
 
-❌ **Wrong:**
+Once you've made your changes, save the file. The updates will be live after you deploy the changes.
 
-```json
-{ "id": "11", "status": "availble" }
-```
+## Managing Form Submissions
 
-✅ **Correct:**
+The website uses Netlify Forms to handle submissions from the "Contact Us" page.
 
-```json
-{ "id": "11", "status": "available" }
-```
+### Accessing Submissions
 
----
+1.  Log in to your [Netlify account](https://app.netlify.com/).
+2.  Navigate to the HB Suites project site.
+3.  Go to the **Forms** section in the main navigation.
+4.  Here, you will find all submissions from the contact form, which you can browse, search, and export.
 
-## Need Help?
+### Spam Filtering
 
-If you see an error message:
+Netlify includes spam filtering for form submissions. You can manage these settings and review submissions marked as spam in the same "Forms" section.
 
-1. Check that all commas are in place
-2. Make sure all quotes are double quotes `"`
-3. Verify status is either `"available"` or `"leased"`
-4. Use an online JSON validator if needed: https://jsonlint.com
+## Deploying Updates
 
----
+The website is hosted on Netlify, and deployments are automated through Git.
 
-**Last Updated:** November 13, 2025
+### Standard Deployment Process
+
+1.  **Commit and Push Changes:** After making any changes to the website (like updating the suite status), commit the changes to your local Git repository and push them to the main branch on GitHub (e.g., `main` or `master`).
+
+    ```bash
+    git add .
+    git commit -m "Update suite 11 to leased"
+    git push origin main
+    ```
+
+2.  **Automatic Build:** Pushing to the main branch automatically triggers a new build and deployment on Netlify.
+
+3.  **Monitor Deployment:** You can monitor the deployment progress in the **Deploys** section of your site's dashboard on Netlify. If the build is successful, the changes will be live within a few minutes.
