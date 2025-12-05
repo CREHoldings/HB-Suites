@@ -1,0 +1,1447 @@
+================================================================================
+                    HB SUITES WEBSITE MAINTENANCE GUIDE
+                  Editing Files Directly on GitHub (Web Interface)
+================================================================================
+
+Last Updated: November 2024
+Version: 1.0
+For: Technical and Non-Technical Users
+
+================================================================================
+                              TABLE OF CONTENTS
+================================================================================
+
+1. Introduction
+2. Accessing the GitHub Repository
+3. Updating Suite Availability Status
+4. Understanding the Code Structure
+5. Step-by-Step Editing Instructions
+6. Common Code Updates with Examples
+7. Verifying Your Changes
+8. Troubleshooting Guide
+9. Best Practices
+10. Emergency Procedures
+
+================================================================================
+                              1. INTRODUCTION
+================================================================================
+
+This guide provides detailed instructions for updating the HB Suites website
+by editing files directly through GitHub's web interface. No software
+installation is required - all changes are made through your web browser.
+
+WHAT YOU CAN UPDATE:
+- Suite availability status (available/leased)
+- Contact information
+- Business hours
+- Text content
+- Images and assets
+
+WHAT THIS GUIDE COVERS:
+- Browser-based editing (no technical setup needed)
+- Code snippets for common updates
+- Validation and testing procedures
+- Error prevention and recovery
+
+PREREQUISITES:
+- GitHub account with access to CREHoldings/HB-Suites repository
+- Web browser (Chrome, Firefox, Safari, or Edge)
+- Basic understanding of copy/paste operations
+
+IMPORTANT NOTE:
+Changes made through GitHub automatically trigger a deployment to the live
+website within 2-5 minutes. Always double-check your changes before saving.
+
+================================================================================
+                    2. ACCESSING THE GITHUB REPOSITORY
+================================================================================
+
+STEP 1: LOG IN TO GITHUB
+-------------------------
+1. Open your web browser
+2. Navigate to: https://github.com
+3. Click "Sign in" (top right corner)
+4. Enter your GitHub credentials:
+   - Username or email
+   - Password
+5. Complete two-factor authentication if enabled
+6. Click "Sign in"
+
+STEP 2: NAVIGATE TO THE REPOSITORY
+-----------------------------------
+1. After logging in, go to: https://github.com/CREHoldings/HB-Suites
+   OR
+2. Click your profile icon (top right)
+3. Select "Your repositories"
+4. Find and click "HB-Suites"
+
+STEP 3: VERIFY ACCESS
+---------------------
+You should see:
+- Repository name: "CREHoldings/HB-Suites"
+- Tabs: Code, Issues, Pull requests, Actions, etc.
+- File browser showing project folders
+- Green "Code" button
+
+If you see "404 - Page not found":
+- Contact repository administrator
+- Request collaborator access
+- Verify the repository URL
+
+GITHUB INTERFACE OVERVIEW:
+--------------------------
+- CODE TAB: Browse and edit files
+- COMMITS: View change history
+- BRANCHES: Main (production), others (development)
+- FILE BROWSER: Click folders to navigate
+- EDIT BUTTON: Pencil icon to edit files
+- COMMIT SECTION: Save changes with description
+
+================================================================================
+                    3. UPDATING SUITE AVAILABILITY STATUS
+================================================================================
+
+This is the most common maintenance task. Suite availability is controlled
+by a single JSON file that can be edited directly on GitHub.
+
+FILE LOCATION:
+--------------
+public/suite-status.json
+
+DIRECT URL:
+-----------
+https://github.com/CREHoldings/HB-Suites/blob/main/public/suite-status.json
+
+CURRENT FILE STRUCTURE:
+-----------------------
+{
+  "suites": [
+    { "id": "1", "status": "leased" },
+    { "id": "2", "status": "leased" },
+    { "id": "3", "status": "leased" },
+    { "id": "4", "status": "leased" },
+    { "id": "5", "status": "leased" },
+    { "id": "6", "status": "leased" },
+    { "id": "7", "status": "leased" },
+    { "id": "8", "status": "leased" },
+    { "id": "9", "status": "leased" },
+    { "id": "10", "status": "leased" },
+    { "id": "11", "status": "available" },
+    { "id": "12", "status": "leased" },
+    { "id": "13", "status": "leased" },
+    { "id": "14", "status": "leased" },
+    { "id": "15", "status": "leased" },
+    { "id": "16", "status": "leased" },
+    { "id": "17", "status": "leased" },
+    { "id": "18", "status": "leased" },
+    { "id": "19", "status": "leased" },
+    { "id": "20", "status": "leased" },
+    { "id": "21", "status": "leased" },
+    { "id": "22", "status": "leased" },
+    { "id": "23", "status": "leased" },
+    { "id": "24", "status": "leased" },
+    { "id": "25", "status": "leased" },
+    { "id": "26", "status": "available" },
+    { "id": "27", "status": "leased" },
+    { "id": "28", "status": "leased" },
+    { "id": "29", "status": "leased" },
+    { "id": "30", "status": "leased" },
+    { "id": "31", "status": "leased" },
+    { "id": "32", "status": "available" },
+    { "id": "33", "status": "leased" },
+    { "id": "34", "status": "leased" },
+    { "id": "35", "status": "leased" },
+    { "id": "36", "status": "leased" },
+    { "id": "37", "status": "leased" },
+    { "id": "38", "status": "leased" }
+  ]
+}
+
+UNDERSTANDING THE CODE:
+-----------------------
+- "suites": Array containing all suite objects
+- "id": Suite number (1-38) - MUST be in quotes ""
+- "status": Current availability - ONLY "available" or "leased"
+- Commas separate each suite object
+- NO comma after the last suite (id: "38")
+- Curly braces {} contain each suite
+- Square brackets [] contain the suite list
+
+VALID STATUS VALUES:
+--------------------
+✓ "available"  - Suite is available for lease
+✓ "leased"     - Suite is currently leased
+
+✗ "pending"    - INVALID
+✗ "reserved"   - INVALID
+✗ "Available"  - INVALID (case-sensitive)
+✗ available    - INVALID (must have quotes)
+
+================================================================================
+                    4. UNDERSTANDING THE CODE STRUCTURE
+================================================================================
+
+PROJECT ORGANIZATION:
+---------------------
+HB-Suites/
+├── public/                    (Static files)
+│   ├── suite-status.json     ← MOST COMMONLY EDITED
+│   ├── robots.txt
+│   └── sitemap.xml
+│
+├── src/                       (Source code)
+│   ├── components/
+│   │   ├── ContactUs.jsx     ← Contact form & info
+│   │   ├── AvailableSuites.jsx ← Suite display
+│   │   ├── Header.jsx        ← Header & navigation
+│   │   ├── Footer.jsx        ← Footer & links
+│   │   ├── Hero.jsx          ← Homepage banner
+│   │   └── AboutUs.jsx       ← About section
+│   │
+│   ├── data/
+│   │   └── suiteOccupancy.js ← Suite layout data
+│   │
+│   └── index.css             ← Global styles
+│
+├── docs/                      (Documentation)
+│   ├── SUITE_STATUS_GUIDE.md
+│   └── GITHUB_WEB_EDITING_GUIDE.txt ← This guide
+│
+├── package.json              (Dependencies)
+├── README.md                 (Project overview)
+└── netlify.toml             (Deployment config)
+
+FILES YOU MAY NEED TO EDIT:
+---------------------------
+1. public/suite-status.json       - Suite availability
+2. src/components/ContactUs.jsx   - Contact info, phone, email
+3. src/components/Footer.jsx      - Footer links, copyright
+4. src/components/Header.jsx      - Navigation, logo
+5. src/components/Hero.jsx        - Homepage headline, CTA
+6. src/components/AboutUs.jsx     - About section content
+
+FILES YOU SHOULD NOT EDIT (Without Developer):
+-----------------------------------------------
+- package.json
+- vite.config.js
+- netlify.toml
+- eslint.config.js
+- Any file in node_modules/
+
+================================================================================
+                    5. STEP-BY-STEP EDITING INSTRUCTIONS
+================================================================================
+
+SCENARIO A: UPDATING SUITE STATUS (MOST COMMON)
+================================================
+
+STEP 1: NAVIGATE TO THE FILE
+-----------------------------
+1. Go to: https://github.com/CREHoldings/HB-Suites
+2. Click on "public" folder
+3. Click on "suite-status.json"
+4. You'll see the file contents displayed
+
+STEP 2: ENTER EDIT MODE
+------------------------
+1. Click the PENCIL ICON (✏️) in the top right of the file viewer
+   - Button says "Edit this file" on hover
+2. File opens in an editable text area
+3. You can now modify the content
+
+STEP 3: MAKE YOUR CHANGES
+--------------------------
+Example: Change Suite 11 from "available" to "leased"
+
+FIND THIS LINE:
+    { "id": "11", "status": "available" },
+
+CHANGE TO:
+    { "id": "11", "status": "leased" },
+
+Example: Change Suite 15 from "leased" to "available"
+
+FIND THIS LINE:
+    { "id": "15", "status": "leased" },
+
+CHANGE TO:
+    { "id": "15", "status": "available" },
+
+STEP 4: VALIDATE YOUR CHANGES
+------------------------------
+Before saving, check:
+
+✓ All suite IDs are in quotes: "11" not 11
+✓ All status values are in quotes: "leased" not leased
+✓ Status is exactly "available" or "leased" (case-sensitive)
+✓ Each line has a comma EXCEPT the last suite
+✓ All opening braces { have closing braces }
+✓ All opening brackets [ have closing brackets ]
+
+COMMON MISTAKES TO AVOID:
+[WRONG]  { id: "11", status: "available" },      ← Missing quotes around keys
+[WRONG]  { "id": 11, "status": "available" },    ← ID not in quotes
+[WRONG]  { "id": "11", "status": available },    ← Status not in quotes
+[WRONG]  { "id": "11", "status": "Available" },  ← Wrong capitalization
+[WRONG]  { "id": "38", "status": "leased" },     ← Has comma (last item)
+
+[CORRECT] { "id": "11", "status": "available" }, ← Perfect
+[CORRECT] { "id": "38", "status": "leased" }     ← Last item, no comma
+
+STEP 5: PREVIEW CHANGES (OPTIONAL)
+-----------------------------------
+1. Click "Preview" tab above the editor
+2. GitHub shows a diff (comparison)
+3. Red lines = removed content
+4. Green lines = added content
+5. Review to ensure only intended changes are made
+
+STEP 6: COMMIT (SAVE) YOUR CHANGES
+-----------------------------------
+Scroll down to "Commit changes" section:
+
+1. COMMIT MESSAGE (Required):
+   Enter a brief description of what you changed
+   
+   Good examples:
+   - "Update suite 11 to leased status"
+   - "Mark suites 15, 26, 32 as available"
+   - "Update suite availability for December 2024"
+   
+   Bad examples:
+   - "update" (too vague)
+   - "changes" (not descriptive)
+   - "asdfgh" (meaningless)
+
+2. EXTENDED DESCRIPTION (Optional):
+   Add more details if needed
+   Example: "Suite 11 leased to Jane's Salon. Effective Dec 1, 2024."
+
+3. COMMIT OPTIONS:
+   Select: ● Commit directly to the main branch
+   (Leave "Create a new branch" unselected for simple updates)
+
+4. CLICK: "Commit changes" button (green)
+
+STEP 7: VERIFY COMMIT
+----------------------
+- You'll return to the file view
+- Green banner appears: "Your commit has been successfully created"
+- File now shows your updated content
+- Timestamp shows when change was made
+
+STEP 8: MONITOR DEPLOYMENT
+---------------------------
+1. Click "Actions" tab at top of repository
+2. See workflow run in progress (yellow dot)
+3. Wait 2-5 minutes for deployment
+4. Green checkmark = successful deployment
+5. Red X = deployment failed (see troubleshooting)
+
+STEP 9: VERIFY ON LIVE WEBSITE
+-------------------------------
+1. Wait 3-5 minutes after green checkmark
+2. Visit your live website URL
+3. Navigate to "Available Suites" section
+4. Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)
+5. Verify suite shows correct status
+
+================================================================================
+                6. COMMON CODE UPDATES WITH EXAMPLES
+================================================================================
+
+UPDATE #1: CHANGE CONTACT PHONE NUMBER
+=======================================
+
+FILE: src/components/ContactUs.jsx
+URL: https://github.com/CREHoldings/HB-Suites/blob/main/src/components/ContactUs.jsx
+
+CURRENT CODE (Around line 100-120):
+------------------------------------
+<div className="flex items-center gap-4 mb-6">
+  <div className="bg-primary-gold/20 p-3 rounded-full">
+    <Phone className="text-primary-gold" size={24} />
+  </div>
+  <div>
+    <p className="font-medium text-gray-900">Phone</p>
+    <p className="text-gray-600">(555) 123-4567</p>
+  </div>
+</div>
+
+TO UPDATE PHONE NUMBER:
+-----------------------
+1. Find the line: <p className="text-gray-600">(555) 123-4567</p>
+2. Change to your new number: <p className="text-gray-600">(888) 999-0000</p>
+3. Commit with message: "Update contact phone number"
+
+AFTER UPDATE:
+-------------
+<div className="flex items-center gap-4 mb-6">
+  <div className="bg-primary-gold/20 p-3 rounded-full">
+    <Phone className="text-primary-gold" size={24} />
+  </div>
+  <div>
+    <p className="font-medium text-gray-900">Phone</p>
+    <p className="text-gray-600">(888) 999-0000</p>
+  </div>
+</div>
+
+
+UPDATE #2: CHANGE CONTACT EMAIL ADDRESS
+========================================
+
+FILE: src/components/ContactUs.jsx
+SAME FILE AS ABOVE
+
+CURRENT CODE (Around line 125-145):
+------------------------------------
+<div className="flex items-center gap-4 mb-6">
+  <div className="bg-primary-gold/20 p-3 rounded-full">
+    <Mail className="text-primary-gold" size={24} />
+  </div>
+  <div>
+    <p className="font-medium text-gray-900">Email</p>
+    <p className="text-gray-600">info@hbsuites.com</p>
+  </div>
+</div>
+
+TO UPDATE EMAIL:
+----------------
+1. Find: <p className="text-gray-600">info@hbsuites.com</p>
+2. Change to: <p className="text-gray-600">contact@hbsuites.com</p>
+3. Commit with message: "Update contact email address"
+
+
+UPDATE #3: CHANGE BUSINESS ADDRESS
+===================================
+
+FILE: src/components/ContactUs.jsx
+
+CURRENT CODE (Around line 85-105):
+-----------------------------------
+<div className="flex items-center gap-4 mb-6">
+  <div className="bg-primary-gold/20 p-3 rounded-full">
+    <MapPin className="text-primary-gold" size={24} />
+  </div>
+  <div>
+    <p className="font-medium text-gray-900">Visit Us</p>
+    <p className="text-gray-600">
+      123 Beauty Boulevard
+      <br />
+      Suite 100, City, ST 12345
+    </p>
+  </div>
+</div>
+
+TO UPDATE ADDRESS:
+------------------
+1. Find the address text between <p className="text-gray-600"> tags
+2. Update the text:
+   
+   <p className="text-gray-600">
+     456 Salon Street
+     <br />
+     Floor 2, New City, CA 90210
+   </p>
+
+3. Commit with message: "Update business address"
+
+NOTE: <br /> creates a line break - keep it to maintain formatting
+
+
+UPDATE #4: CHANGE HOMEPAGE HERO HEADLINE
+=========================================
+
+FILE: src/components/Hero.jsx
+URL: https://github.com/CREHoldings/HB-Suites/blob/main/src/components/Hero.jsx
+
+CURRENT CODE (Around line 50-70):
+----------------------------------
+<h1
+  id="hero_heading_title"
+  className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+>
+  Premium Salon Suites
+  <span className="block text-primary-gold">
+    Your Vision, Your Space
+  </span>
+</h1>
+
+TO UPDATE HEADLINE:
+-------------------
+1. Change text between <h1> tags
+2. Keep className and id attributes unchanged
+3. Update text only
+
+EXAMPLE UPDATE:
+---------------
+<h1
+  id="hero_heading_title"
+  className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+>
+  Luxury Beauty Suites
+  <span className="block text-primary-gold">
+    Elevate Your Business
+  </span>
+</h1>
+
+Commit: "Update homepage hero headline"
+
+
+UPDATE #5: CHANGE HERO SUBTITLE/DESCRIPTION
+============================================
+
+FILE: src/components/Hero.jsx
+
+CURRENT CODE (Around line 75-85):
+----------------------------------
+<p
+  id="hero_heading_description"
+  className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl"
+>
+  Elevate your beauty business with our state-of-the-art salon
+  suites. Professional space designed for independent beauty
+  entrepreneurs.
+</p>
+
+TO UPDATE:
+----------
+1. Change text between <p> tags
+2. Keep all className and id attributes
+
+EXAMPLE:
+--------
+<p
+  id="hero_heading_description"
+  className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl"
+>
+  Transform your beauty career with premium salon suites designed
+  for success. Modern amenities and flexible terms for beauty
+  professionals.
+</p>
+
+
+UPDATE #6: CHANGE FOOTER COPYRIGHT TEXT
+========================================
+
+FILE: src/components/Footer.jsx
+URL: https://github.com/CREHoldings/HB-Suites/blob/main/src/components/Footer.jsx
+
+CURRENT CODE (Around line 120-135):
+------------------------------------
+<div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+  <p>&copy; 2024 HB Suites. All rights reserved.</p>
+</div>
+
+TO UPDATE YEAR:
+---------------
+1. Find the copyright symbol line
+2. Change year: 2024 → 2025
+
+AFTER UPDATE:
+-------------
+<div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+  <p>&copy; 2025 HB Suites. All rights reserved.</p>
+</div>
+
+Commit: "Update copyright year to 2025"
+
+
+UPDATE #7: CHANGE CALL-TO-ACTION BUTTON TEXT
+=============================================
+
+FILE: src/components/Hero.jsx
+
+CURRENT CODE (Around line 90-100):
+-----------------------------------
+<a
+  href="#contact"
+  className="bg-primary-gold text-gray-900 px-8 py-4 rounded-full
+             text-lg font-semibold hover:bg-primary-gold/90
+             transition-all duration-300 inline-block"
+>
+  Schedule a Tour
+</a>
+
+TO UPDATE BUTTON TEXT:
+----------------------
+1. Find text between <a> tags
+2. Change "Schedule a Tour" to desired text
+3. Keep className and href attributes
+
+EXAMPLE:
+--------
+<a
+  href="#contact"
+  className="bg-primary-gold text-gray-900 px-8 py-4 rounded-full
+             text-lg font-semibold hover:bg-primary-gold/90
+             transition-all duration-300 inline-block"
+>
+  Book Your Visit
+</a>
+
+
+UPDATE #8: ADD OR MODIFY SOCIAL MEDIA LINKS
+============================================
+
+FILE: src/components/Footer.jsx
+
+CURRENT CODE (Example - may vary):
+-----------------------------------
+<div className="flex gap-4">
+  <a href="https://facebook.com" className="...">
+    Facebook
+  </a>
+  <a href="https://instagram.com" className="...">
+    Instagram
+  </a>
+</div>
+
+TO UPDATE:
+----------
+1. Change href="..." to your actual social media URLs
+2. Example:
+
+UPDATED CODE:
+-------------
+<div className="flex gap-4">
+  <a href="https://facebook.com/hbsuites" className="...">
+    Facebook
+  </a>
+  <a href="https://instagram.com/hbsuites" className="...">
+    Instagram
+  </a>
+  <a href="https://twitter.com/hbsuites" className="...">
+    Twitter
+  </a>
+</div>
+
+
+UPDATE #9: MODIFY ABOUT US SECTION TEXT
+========================================
+
+FILE: src/components/AboutUs.jsx
+URL: https://github.com/CREHoldings/HB-Suites/blob/main/src/components/AboutUs.jsx
+
+CURRENT CODE (Around line 40-80):
+----------------------------------
+<div className="max-w-3xl">
+  <h2 className="text-4xl font-bold mb-6">
+    About HB Suites
+  </h2>
+  <p className="text-gray-600 text-lg mb-4">
+    We provide premium salon suite rentals...
+  </p>
+</div>
+
+TO UPDATE:
+----------
+1. Locate the text you want to change
+2. Update between the <p> tags
+3. Keep HTML structure intact
+4. Maintain className attributes
+
+IMPORTANT: Always keep:
+- Opening and closing tags: <p>...</p>
+- className attributes: className="..."
+- Proper nesting and structure
+
+
+UPDATE #10: UPDATE MULTIPLE SUITES AT ONCE
+===========================================
+
+FILE: public/suite-status.json
+
+SCENARIO: Mark suites 11, 15, 26 as available; mark suite 8 as leased
+
+CURRENT CODE EXCERPT:
+---------------------
+{ "id": "8", "status": "available" },
+{ "id": "11", "status": "leased" },
+{ "id": "15", "status": "leased" },
+{ "id": "26", "status": "leased" },
+
+UPDATED CODE:
+-------------
+{ "id": "8", "status": "leased" },
+{ "id": "11", "status": "available" },
+{ "id": "15", "status": "available" },
+{ "id": "26", "status": "available" },
+
+COMMIT MESSAGE:
+---------------
+"Update suite availability: 8 leased, 11/15/26 available"
+
+================================================================================
+                      7. VERIFYING YOUR CHANGES
+================================================================================
+
+VERIFICATION CHECKLIST:
+-----------------------
+After making any code changes, follow this checklist:
+
+□ Step 1: Check Commit Status
+   - Green banner confirms commit succeeded
+   - Commit appears in commit history
+   - Timestamp is current
+
+□ Step 2: Monitor GitHub Actions
+   - Navigate to "Actions" tab
+   - Latest workflow shows your commit message
+   - Status changes: Yellow (running) → Green (success)
+   - If Red (failed), see troubleshooting section
+
+□ Step 3: Check Netlify Deployment
+   Option A - Through Netlify Dashboard:
+   1. Go to https://app.netlify.com
+   2. Click on HB Suites site
+   3. Go to "Deploys" tab
+   4. Latest deploy shows "Published"
+   5. Check deploy time (should be recent)
+
+   Option B - Through GitHub:
+   1. Actions tab shows green checkmark
+   2. Click on workflow run
+   3. Deployment step shows success
+
+□ Step 4: Test on Live Website
+   1. Open live website URL in browser
+   2. Use incognito/private mode (avoids cache)
+   3. Navigate to affected section
+   4. Verify changes are visible
+   5. Test on mobile if applicable
+
+□ Step 5: Cross-Browser Testing (Optional)
+   - Test in Chrome
+   - Test in Firefox
+   - Test in Safari
+   - Test in Edge
+   - Test on mobile device
+
+□ Step 6: Functionality Testing
+   For suite status changes:
+   - Available suites show green badge
+   - Leased suites show gray badge
+   - Count of available suites is correct
+
+   For contact info changes:
+   - Phone number clickable (if mobile)
+   - Email link opens mail client
+   - Address link opens maps (if linked)
+
+   For form changes:
+   - Submit test form
+   - Check Netlify Forms for submission
+   - Verify email notification received
+
+CACHE CLEARING INSTRUCTIONS:
+-----------------------------
+If changes don't appear immediately:
+
+Windows/Linux:
+- Hard Refresh: Ctrl + Shift + R
+- Clear Cache: Ctrl + Shift + Delete
+
+Mac:
+- Hard Refresh: Cmd + Shift + R
+- Clear Cache: Cmd + Shift + Delete
+
+All Browsers:
+1. Open Developer Tools (F12)
+2. Right-click refresh button
+3. Select "Empty Cache and Hard Reload"
+
+DEPLOYMENT TIMELINE:
+--------------------
+- Commit to GitHub: Instant
+- GitHub Actions trigger: 5-10 seconds
+- Build process: 1-3 minutes
+- Netlify deployment: 30-60 seconds
+- CDN propagation: 1-5 minutes
+- TOTAL TIME: 3-10 minutes
+
+================================================================================
+                      8. TROUBLESHOOTING GUIDE
+================================================================================
+
+PROBLEM #1: BUILD FAILED (Red X in Actions)
+============================================
+
+SYMPTOMS:
+- Red X in GitHub Actions tab
+- Email notification about failed build
+- Changes not appearing on website
+
+DIAGNOSIS:
+1. Go to Actions tab
+2. Click on failed workflow
+3. Expand failed step
+4. Read error message
+
+COMMON CAUSES & SOLUTIONS:
+
+ERROR: "JSON Parse Error"
+-------------------------
+CAUSE: Invalid JSON syntax in suite-status.json
+
+SOLUTION:
+1. Go back to suite-status.json
+2. Click Edit (pencil icon)
+3. Copy ALL content
+4. Go to https://jsonlint.com
+5. Paste content
+6. Click "Validate JSON"
+7. Fix errors highlighted in red
+8. Common fixes:
+   - Add missing commas
+   - Remove trailing comma on last item
+   - Add missing quotes
+   - Close all brackets/braces
+9. Copy corrected JSON from JSONLint
+10. Paste back into GitHub editor
+11. Commit with message: "Fix JSON syntax error"
+
+ERROR: "Module not found"
+-------------------------
+CAUSE: Broken import or missing file
+
+SOLUTION:
+1. This usually requires developer intervention
+2. Revert to previous working version:
+   - Go to file
+   - Click "History" button
+   - Find last working version
+   - Click "..." → "View file"
+   - Copy content
+   - Go back to current file
+   - Edit and paste old content
+   - Commit: "Revert to working version"
+3. Contact developer for proper fix
+
+ERROR: "Build command failed"
+-----------------------------
+CAUSE: Code syntax error in JSX files
+
+SOLUTION:
+1. Review your recent changes
+2. Common issues:
+   - Unclosed HTML tag: <div> without </div>
+   - Missing quote: className="text-gray-600
+   - Broken JSX: { missing closing }
+3. Revert to previous version (see above)
+4. Make changes more carefully
+5. Or contact developer
+
+
+PROBLEM #2: CHANGES NOT SHOWING ON WEBSITE
+===========================================
+
+CAUSE A: Browser Cache
+-----------------------
+SOLUTION:
+1. Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)
+2. Clear browser cache
+3. Try incognito/private browsing mode
+4. Try different browser
+5. Try different device
+
+CAUSE B: Deployment Still in Progress
+--------------------------------------
+SOLUTION:
+1. Wait 5-10 minutes
+2. Check Actions tab for green checkmark
+3. Check Netlify Deploys for "Published" status
+4. Refresh website after deployment completes
+
+CAUSE C: CDN Propagation Delay
+-------------------------------
+SOLUTION:
+1. Wait up to 15 minutes
+2. CDN (Content Delivery Network) takes time to update globally
+3. Try accessing from different network (mobile data vs WiFi)
+
+CAUSE D: Wrong File Edited
+---------------------------
+SOLUTION:
+1. Verify you edited the correct file
+2. Check file path matches instructions
+3. Example: public/suite-status.json, not src/data/suiteOccupancy.js
+
+
+PROBLEM #3: ACCIDENTALLY BROKE THE WEBSITE
+===========================================
+
+IMMEDIATE ACTION:
+-----------------
+DO NOT PANIC. All changes are reversible.
+
+SOLUTION A: Revert Through Netlify (Fastest)
+---------------------------------------------
+1. Go to https://app.netlify.com
+2. Click HB Suites site
+3. Go to "Deploys" tab
+4. Find last working deploy (before your change)
+5. Click "..." menu
+6. Click "Publish deploy"
+7. Site reverts immediately
+8. Fix your code properly
+9. Redeploy when ready
+
+SOLUTION B: Revert Through GitHub
+----------------------------------
+1. Go to the file you edited
+2. Click "History" button
+3. Find commit before your change
+4. Click "..." → "View file"
+5. Copy entire file content
+6. Go back to current file
+7. Click Edit (pencil)
+8. Delete all content
+9. Paste copied content
+10. Commit: "Revert to working version"
+11. Wait for deployment
+
+SOLUTION C: Revert Specific Commit
+-----------------------------------
+1. Go to repository main page
+2. Click "Commits" (above file browser)
+3. Find your problematic commit
+4. Click "..." menu
+5. Click "Revert"
+6. Confirm revert
+7. New commit undoes your changes
+
+
+PROBLEM #4: CANNOT SAVE (Commit) CHANGES
+=========================================
+
+ERROR: "You must provide a commit message"
+------------------------------------------
+SOLUTION:
+1. Scroll down to "Commit changes" section
+2. Enter description in first text field
+3. Click "Commit changes"
+
+ERROR: "You don't have permission"
+----------------------------------
+SOLUTION:
+1. Verify you're logged into correct GitHub account
+2. Contact repository administrator
+3. Request collaborator access
+4. Ensure you have "Write" permission level
+
+ERROR: "This branch is protected"
+---------------------------------
+SOLUTION:
+1. Contact repository administrator
+2. May need to create pull request instead of direct commit
+3. Or admin needs to adjust branch protection rules
+
+
+PROBLEM #5: FORM SUBMISSIONS NOT WORKING
+=========================================
+
+SYMPTOMS:
+- Users report form not submitting
+- No submissions in Netlify Forms
+- Form shows error message
+
+DIAGNOSIS:
+1. Test form yourself
+2. Check browser console for errors (F12)
+3. Check Netlify Forms dashboard
+4. Check spam folder in Netlify Forms
+
+SOLUTIONS:
+
+ISSUE: Form submissions in spam
+--------------------------------
+1. Netlify → Site → Forms
+2. Click "Spam" tab
+3. Review submissions
+4. Mark legitimate ones as "Not spam"
+5. Adjust spam filter settings
+
+ISSUE: Form not configured
+---------------------------
+This requires developer intervention:
+1. Form needs special Netlify attributes
+2. Contact developer
+3. Do not edit ContactUs.jsx without guidance
+
+ISSUE: Network error during submission
+---------------------------------------
+1. Usually temporary issue
+2. Ask user to try again
+3. Check user's internet connection
+4. Try from different network
+
+
+PROBLEM #6: NAVIGATION/LINKS BROKEN
+====================================
+
+SYMPTOMS:
+- Clicking links does nothing
+- Page doesn't scroll to section
+- 404 error on page load
+
+COMMON CAUSES:
+
+CAUSE: Incorrect href value
+----------------------------
+SOLUTION:
+1. Check link code in component file
+2. Ensure href="#sectionid" format
+3. Ensure target section has matching id="sectionid"
+4. Examples:
+   ✓ <a href="#contact">
+   ✓ <div id="contact">
+   ✗ <a href="contact"> (missing #)
+   ✗ <a href="#Contact"> (wrong capitalization)
+
+CAUSE: JavaScript error
+-----------------------
+SOLUTION:
+1. Check browser console (F12)
+2. Look for red error messages
+3. May require developer to fix
+4. Revert to previous working version
+
+
+EMERGENCY CONTACT:
+------------------
+If you cannot resolve an issue:
+1. Revert to last working version (see above)
+2. Contact developer with:
+   - Description of what you were trying to do
+   - What went wrong
+   - Error messages (screenshots helpful)
+   - Link to commit that caused issue
+3. Do not make additional changes until resolved
+
+================================================================================
+                          9. BEST PRACTICES
+================================================================================
+
+GENERAL GUIDELINES:
+-------------------
+
+1. ONE CHANGE AT A TIME
+   - Make single, focused changes
+   - Test before making next change
+   - Easier to identify issues
+   - Simpler to revert if needed
+
+2. DESCRIPTIVE COMMIT MESSAGES
+   Good examples:
+   ✓ "Update suite 11 to leased status"
+   ✓ "Change contact phone number"
+   ✓ "Update hero headline for winter promotion"
+   ✓ "Fix typo in about section"
+
+   Bad examples:
+   ✗ "update"
+   ✗ "fix"
+   ✗ "changes"
+   ✗ "test"
+
+3. TEST BEFORE PEAK HOURS
+   - Make changes during low-traffic times
+   - Avoid updates during business hours if possible
+   - Less impact if something goes wrong
+
+4. KEEP BACKUPS
+   Before major changes:
+   - Copy file content to text document
+   - Save with date: suite-status-backup-2024-12-01.txt
+   - Store in safe location
+   - Can restore if needed
+
+5. VALIDATE BEFORE COMMITTING
+   For JSON files:
+   - Always validate at https://jsonlint.com
+   - Fix all errors before committing
+   - Prevents build failures
+
+   For text changes:
+   - Use spell checker
+   - Read content aloud
+   - Check for typos
+   - Verify phone numbers, emails, addresses
+
+6. DOCUMENT YOUR CHANGES
+   Keep a log:
+   - Date of change
+   - What was changed
+   - Why it was changed
+   - Who made the change
+   - Commit URL
+
+   Example log entry:
+   ```
+   Date: 2024-12-01
+   Change: Suite 11 marked as leased
+   Reason: New lease signed with Jane's Salon
+   By: John Manager
+   Commit: https://github.com/CREHoldings/HB-Suites/commit/abc123
+   ```
+
+7. UNDERSTAND BEFORE EDITING
+   - Read the entire section you're editing
+   - Understand the context
+   - Don't change code you don't understand
+   - When in doubt, ask developer
+
+8. PRESERVE CODE STRUCTURE
+   When editing:
+   ✓ Keep all className attributes
+   ✓ Keep all id attributes
+   ✓ Keep HTML tag structure
+   ✓ Only change text content and values
+   ✗ Don't delete tags
+   ✗ Don't remove attributes
+   ✗ Don't change syntax
+
+   Example - Only change highlighted parts:
+   
+   <p className="text-gray-600">
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ DON'T CHANGE
+     Contact us today
+     ^^^^^^^^^^^^^^^^ CHANGE THIS TEXT
+   </p>
+   ^^^^ DON'T CHANGE
+
+9. VERIFY ON MOBILE
+   - 60%+ of traffic is mobile
+   - Test changes on phone
+   - Check responsive design
+   - Verify touch targets work
+
+10. SCHEDULE REGULAR REVIEWS
+    Weekly:
+    - Review suite availability
+    - Update as needed
+    - Check form submissions
+
+    Monthly:
+    - Review all content accuracy
+    - Check for outdated information
+    - Export form data backup
+
+    Quarterly:
+    - Comprehensive content audit
+    - Update images if needed
+    - Review SEO elements
+
+CODE EDITING SAFETY RULES:
+---------------------------
+
+SAFE TO EDIT:
+✓ Text content between tags
+✓ URLs in href attributes
+✓ Image alt text
+✓ Phone numbers
+✓ Email addresses
+✓ Suite status values
+✓ Copyright year
+
+BE CAREFUL WITH:
+⚠ className attributes (keep exact)
+⚠ HTML structure (keep all tags)
+⚠ Quotes (use double quotes in JSON)
+⚠ Commas in JSON (syntax critical)
+
+DO NOT EDIT:
+✗ import statements
+✗ function declarations
+✗ JavaScript logic
+✗ CSS class definitions
+✗ Component structure
+✗ Configuration files (package.json, vite.config.js)
+
+WHEN TO CONTACT DEVELOPER:
+--------------------------
+- Adding new features
+- Changing layouts
+- Modifying forms
+- Adding new pages
+- Changing navigation structure
+- Updating dependencies
+- Fixing JavaScript errors
+- Performance issues
+- Security updates
+
+================================================================================
+                      10. EMERGENCY PROCEDURES
+================================================================================
+
+SCENARIO 1: WEBSITE IS DOWN
+============================
+
+IMMEDIATE STEPS:
+1. Stay calm
+2. Check if it's just your connection:
+   - Try different device
+   - Try different network
+   - Ask colleague to check
+3. Check Netlify status: https://www.netlifystatus.com
+4. If Netlify is down, wait for restoration (rare)
+5. If site is actually down:
+   - Check latest deploy in Netlify
+   - Look for failed build
+   - Revert to previous deploy (see Problem #3)
+
+SCENARIO 2: WRONG INFORMATION PUBLISHED
+========================================
+
+PRIORITY: Remove incorrect information ASAP
+
+STEPS:
+1. Identify the incorrect file
+2. Navigate to file on GitHub
+3. Click Edit
+4. Find and fix incorrect information
+5. Commit immediately with message: "URGENT: Fix incorrect [what] information"
+6. Monitor deployment (Actions tab)
+7. Verify fix on live site
+8. If urgent, use Netlify's instant rollback while fixing
+
+SCENARIO 3: ACCIDENTALLY DELETED CONTENT
+=========================================
+
+RECOVERY:
+1. Don't commit the change if you haven't yet
+2. If already committed:
+   - Go to file History
+   - Find version before deletion
+   - Copy content
+   - Edit current file
+   - Paste content back
+   - Commit: "Restore deleted content"
+
+SCENARIO 4: MULTIPLE FAILED DEPLOY ATTEMPTS
+============================================
+
+STOP AND ASSESS:
+1. Stop making changes
+2. Check error messages in all failed deploys
+3. Identify pattern
+4. Revert to last known working deploy
+5. Contact developer with error details
+6. Do not continue trying different fixes
+
+SCENARIO 5: CANNOT ACCESS GITHUB ACCOUNT
+=========================================
+
+ACCOUNT LOCKED:
+1. Try GitHub account recovery
+2. Check email for security notifications
+3. Reset password if needed
+4. Enable 2FA if not already enabled
+5. Contact GitHub support if locked out
+6. Have backup team member make urgent changes
+
+SCENARIO 6: URGENT SUITE STATUS UPDATE NEEDED
+==============================================
+
+FAST TRACK PROCEDURE:
+1. Go directly to: https://github.com/CREHoldings/HB-Suites/blob/main/public/suite-status.json
+2. Click Edit (pencil icon)
+3. Find suite by ID
+4. Change status
+5. Validate JSON: Copy all → https://jsonlint.com → Validate → Fix if needed
+6. Commit: "URGENT: Update suite [number] to [status]"
+7. Monitor Actions for green checkmark
+8. Verify on website within 5 minutes
+
+SCENARIO 7: SENSITIVE INFORMATION ACCIDENTALLY COMMITTED
+=========================================================
+
+CRITICAL - ACT IMMEDIATELY:
+1. Do not just delete the information and commit
+2. Contact developer immediately
+3. Git history retains all commits
+4. May need to purge Git history
+5. May need to rotate passwords/API keys
+6. Developer will use git filter-branch or BFG Repo-Cleaner
+
+Prevention:
+- Never commit passwords
+- Never commit API keys
+- Never commit private contact info
+- Use environment variables for secrets
+
+EMERGENCY CONTACTS:
+-------------------
+
+Developer:
+- Name: [Developer Name]
+- Email: [developer@email.com]
+- Phone: [Phone Number]
+- Hours: [Availability]
+
+Netlify Support:
+- URL: https://support.netlify.com
+- Response time: 24-48 hours (free plan)
+
+GitHub Support:
+- URL: https://support.github.com
+- Documentation: https://docs.github.com
+
+Repository Administrator:
+- Name: [Admin Name]
+- Email: [admin@email.com]
+- Role: Grant access, manage permissions
+
+ESCALATION PATH:
+1. Try troubleshooting guide
+2. Revert to working version
+3. Contact developer
+4. If developer unavailable, contact repository admin
+5. If platform issue, contact Netlify/GitHub support
+
+================================================================================
+                            QUICK REFERENCE
+================================================================================
+
+MOST COMMON TASK: UPDATE SUITE STATUS
+--------------------------------------
+1. https://github.com/CREHoldings/HB-Suites
+2. Click: public → suite-status.json
+3. Click: Pencil icon (Edit)
+4. Find suite by ID
+5. Change: "status": "available" or "status": "leased"
+6. Validate: Copy to https://jsonlint.com
+7. Commit message: "Update suite [#] to [status]"
+8. Click: Commit changes
+9. Wait 3-5 minutes
+10. Check website
+
+CRITICAL FILE LOCATIONS:
+------------------------
+Suite Status:     public/suite-status.json
+Contact Info:     src/components/ContactUs.jsx
+Hero Section:     src/components/Hero.jsx
+Footer:           src/components/Footer.jsx
+About Section:    src/components/AboutUs.jsx
+
+JSON VALIDATION:
+----------------
+Always validate at: https://jsonlint.com
+Before committing any JSON file changes
+
+DEPLOYMENT CHECK:
+-----------------
+Actions tab → Latest workflow → Green checkmark = Success
+
+EMERGENCY REVERT:
+-----------------
+Netlify dashboard → Deploys → Find last good → ... → Publish deploy
+
+COMMIT MESSAGE FORMAT:
+----------------------
+"[Action] [what] [optional: why/details]"
+Examples:
+- "Update suite 11 to leased"
+- "Change contact phone number"
+- "Fix typo in hero headline"
+
+VALIDATION CHECKLIST:
+---------------------
+□ JSON validated at JSONLint
+□ Spelling checked
+□ No sensitive data included
+□ Commit message is descriptive
+□ Only necessary changes made
+□ Code structure preserved
+
+TESTING CHECKLIST:
+------------------
+□ Actions tab shows green
+□ Netlify shows "Published"
+□ Hard refresh browser
+□ Changes visible on desktop
+□ Changes visible on mobile
+□ All links still work
+□ Forms still submit
+
+================================================================================
+                              GLOSSARY
+================================================================================
+
+Branch: Version of code (main = production)
+CDN: Content Delivery Network (makes site fast globally)
+Commit: Save changes to Git with description
+Deploy: Upload and publish code to live server
+GitHub: Platform for storing and managing code
+GitHub Actions: Automated build/deploy process
+JSON: Data format using brackets and quotes
+JSX: JavaScript + HTML syntax for React
+Netlify: Hosting platform for the website
+Repository (Repo): Project folder containing all code
+Revert: Undo changes and go back to previous version
+Rollback: Publish a previous deployment
+
+================================================================================
+                          SUPPORT & RESOURCES
+================================================================================
+
+DOCUMENTATION:
+- This Guide: docs/GITHUB_WEB_EDITING_GUIDE.txt
+- Full Maintenance Guide: docs/SUITE_STATUS_GUIDE.md
+- Project README: README.md
+
+EXTERNAL RESOURCES:
+- JSONLint (Validator): https://jsonlint.com
+- GitHub Docs: https://docs.github.com
+- Netlify Docs: https://docs.netlify.com
+- Markdown Guide: https://www.markdownguide.org
+
+VIDEO TUTORIALS (Suggested searches):
+- "How to edit files on GitHub"
+- "GitHub web editor tutorial"
+- "Netlify deployment basics"
+
+GETTING HELP:
+1. Read this guide thoroughly
+2. Check troubleshooting section
+3. Try revert to working version
+4. Contact developer with:
+   - What you were trying to do
+   - What happened instead
+   - Error messages (screenshots)
+   - Link to commit/file
+
+FEEDBACK ON THIS GUIDE:
+- Report unclear sections
+- Suggest improvements
+- Request additional examples
+- Note missing scenarios
+
+================================================================================
+                          VERSION HISTORY
+================================================================================
+
+Version 1.0 - November 2024
+- Initial release
+- Complete web-based editing guide
+- Common code update examples
+- Troubleshooting procedures
+- Emergency protocols
+
+Future updates will be documented here.
+
+================================================================================
+                            END OF GUIDE
+================================================================================
+
+Thank you for maintaining the HB Suites website!
+
+For the latest version of this guide, check:
+https://github.com/CREHoldings/HB-Suites/blob/main/docs/GITHUB_WEB_EDITING_GUIDE.txt
+
+Document prepared by: Development Team
+Last reviewed: November 2024
+Next review: Quarterly or as needed
+
+================================================================================

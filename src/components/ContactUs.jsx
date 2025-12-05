@@ -14,10 +14,46 @@ const ContactUs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormState({ submitting: true, success: false, error: false });
 
     const form = e.target;
     const formData = new FormData(form);
+
+    // Validate all required fields are filled
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "phoneNumber",
+      "businessType",
+      "message",
+    ];
+    const emptyFields = requiredFields.filter((field) => {
+      const value = formData.get(field);
+      return !value || value.trim() === "";
+    });
+
+    if (emptyFields.length > 0) {
+      setFormState({ submitting: false, success: false, error: true });
+      return;
+    }
+
+    // Validate email format
+    const email = formData.get("email");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setFormState({ submitting: false, success: false, error: true });
+      return;
+    }
+
+    // Validate phone number (at least 7 digits)
+    const phone = formData.get("phoneNumber");
+    const phoneDigits = phone.replace(/\D/g, "");
+    if (phoneDigits.length < 7) {
+      setFormState({ submitting: false, success: false, error: true });
+      return;
+    }
+
+    setFormState({ submitting: true, success: false, error: false });
 
     // Check if we're in development mode
     const isDevelopment =
@@ -325,8 +361,8 @@ const ContactUs = () => {
 
               {formState.error && (
                 <div className="p-4 text-sm text-center text-red-800 bg-red-100 border border-red-400 rounded-md">
-                  Sorry, there was an error submitting your form. Please try
-                  again or contact us directly.
+                  Please fill in all required fields correctly before
+                  submitting. Ensure your email and phone number are valid.
                 </div>
               )}
 
