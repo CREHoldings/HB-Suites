@@ -31,10 +31,10 @@ const ContactUs = () => {
       return; // Silently reject bot submissions
     }
 
-    // Bot Detection 2: Time-based validation (humans take at least 4 seconds to fill a form)
+    // Bot Detection 2: Time-based validation (humans take at least 3 seconds to fill a form)
     const submissionTime = Date.now();
     const timeSpent = (submissionTime - formStartTime) / 1000; // in seconds
-    if (timeSpent < 4) {
+    if (timeSpent < 3) {
       console.log("Bot detected: form submitted too quickly");
       return; // Silently reject bot submissions
     }
