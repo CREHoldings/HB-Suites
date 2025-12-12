@@ -11,12 +11,55 @@ const ContactUs = () => {
     success: false,
     error: false,
   });
+  const [formStartTime, setFormStartTime] = useState(null);
+
+  // Set form start time when component mounts (human interaction detection)
+  useState(() => {
+    setFormStartTime(Date.now());
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
     const formData = new FormData(form);
+
+    // Bot Detection 1: Check honeypot field
+    const honeypot = formData.get("bot-field");
+    if (honeypot) {
+      console.log("Bot detected: honeypot filled");
+      return; // Silently reject bot submissions
+    }
+
+    // Bot Detection 2: Time-based validation (humans take at least 4 seconds to fill a form)
+    const submissionTime = Date.now();
+    const timeSpent = (submissionTime - formStartTime) / 1000; // in seconds
+    if (timeSpent < 4) {
+      console.log("Bot detected: form submitted too quickly");
+      return; // Silently reject bot submissions
+    }
+
+    // Bot Detection 3: Check for suspicious patterns (like "hbsuites" in names)
+    const firstName = formData.get("firstName")?.trim().toLowerCase();
+    const lastName = formData.get("lastName")?.trim().toLowerCase();
+    const suspiciousPatterns = [
+      "hbsuites",
+      "hb-suites",
+      "test",
+      "admin",
+      "bot",
+      "spam",
+    ];
+
+    const isSuspicious = suspiciousPatterns.some(
+      (pattern) => firstName?.includes(pattern) || lastName?.includes(pattern)
+    );
+
+    if (isSuspicious) {
+      console.log("Bot detected: suspicious name pattern");
+      setFormState({ submitting: false, success: false, error: true });
+      return;
+    }
 
     // Validate all required fields are filled
     const requiredFields = [
@@ -233,13 +276,18 @@ const ContactUs = () => {
               {/* Hidden field for Netlify Forms */}
               <input type="hidden" name="form-name" value="contact" />
 
-              {/* Honeypot field for spam protection */}
-              <p className="hidden">
-                <label>
-                  Don't fill this out if you're human:{" "}
-                  <input name="bot-field" />
-                </label>
-              </p>
+              {/* Honeypot field for spam protection - hidden from users */}
+              <div
+                style={{ position: "absolute", left: "-5000px" }}
+                aria-hidden="true"
+              >
+                <input
+                  type="text"
+                  name="bot-field"
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+              </div>
 
               <div>
                 <label
@@ -253,6 +301,10 @@ const ContactUs = () => {
                   id="firstName"
                   name="firstName"
                   required
+                  minLength="2"
+                  maxLength="50"
+                  pattern="[A-Za-z\s'-]{2,}"
+                  title="Please enter a valid first name (letters only, 2+ characters)"
                   className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your first name"
                 />
@@ -270,6 +322,10 @@ const ContactUs = () => {
                   id="lastName"
                   name="lastName"
                   required
+                  minLength="2"
+                  maxLength="50"
+                  pattern="[A-Za-z\s'-]{2,}"
+                  title="Please enter a valid last name (letters only, 2+ characters)"
                   className="w-full p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   placeholder="Enter your last name"
                 />
@@ -347,8 +403,10 @@ const ContactUs = () => {
                   id="message"
                   name="message"
                   required
+                  minLength="10"
+                  maxLength="1000"
                   className="w-full h-28 sm:h-32 p-3 sm:p-4 text-sm md:text-base sm:text-base border border-custom input-bg-custom resize-none focus:outline-none focus:ring-2 focus:ring-secondary-custom"
-                  placeholder="Tell us about your requirements"
+                  placeholder="Tell us about your requirements (minimum 10 characters)"
                 ></textarea>
               </div>
 
