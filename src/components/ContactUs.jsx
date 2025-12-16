@@ -270,6 +270,7 @@ const ContactUs = () => {
               method="POST"
               data-netlify="true"
               netlify-honeypot="bot-field"
+              data-netlify-recaptcha="true"
               onSubmit={handleSubmit}
               className="space-y-4 sm:space-y-6 poppins-regular"
             >
@@ -423,6 +424,12 @@ const ContactUs = () => {
                   submitting. Ensure your email and phone number are valid.
                 </div>
               )}
+
+              {/* Netlify reCAPTCHA - Server-side bot protection */}
+              <div
+                data-netlify-recaptcha="true"
+                className="flex justify-center"
+              ></div>
 
               <button
                 type="submit"

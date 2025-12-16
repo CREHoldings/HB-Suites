@@ -78,7 +78,14 @@
   </head>
   <body>
     <!-- Hidden form for Netlify Forms detection -->
-    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <form
+      name="contact"
+      netlify
+      netlify-honeypot="bot-field"
+      data-netlify-recaptcha="true"
+      hidden
+    >
+      <input type="text" name="bot-field" />
       <input type="text" name="firstName" />
       <input type="text" name="lastName" />
       <input type="email" name="email" />
@@ -94,6 +101,7 @@
         <option value="other">Other</option>
       </select>
       <textarea name="message"></textarea>
+      <div data-netlify-recaptcha="true"></div>
     </form>
 
     <div id="root"></div>
