@@ -28,7 +28,7 @@ function App() {
   return (
     <main
       id="app-wrapper"
-      className="w-full min-h-screen mx-auto poppins-regular backdrop-blur-3xl"
+      className="w-full min-h-screen mx-auto overflow-hidden poppins-regular backdrop-blur-3xl"
     >
       <div id="app-content">
         <Header />
