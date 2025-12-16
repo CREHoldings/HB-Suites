@@ -15,6 +15,7 @@ const ContactUs = () => {
     error: false,
   });
   const [formStartTime, setFormStartTime] = useState(null);
+  const [recaptchaWidgetId, setRecaptchaWidgetId] = useState(null);
   const formRef = useRef(null);
   const recaptchaRef = useRef(null);
 
@@ -104,8 +105,8 @@ const ContactUs = () => {
     setFormState({ submitting: true, success: false, error: false });
 
     // Execute invisible reCAPTCHA
-    if (window.grecaptcha && recaptchaRef.current) {
-      window.grecaptcha.execute();
+    if (window.grecaptcha && recaptchaWidgetId !== null) {
+      window.grecaptcha.execute(recaptchaWidgetId);
       return; // The actual submission happens in onRecaptchaVerify
     }
 
@@ -127,10 +128,10 @@ const ContactUs = () => {
     await submitForm(formData, form);
 
     // Reset reCAPTCHA for next submission
-    if (window.grecaptcha) {
-      window.grecaptcha.reset();
+    if (window.grecaptcha && recaptchaWidgetId !== null) {
+      window.grecaptcha.reset(recaptchaWidgetId);
     }
-  }, []);
+  }, [recaptchaWidgetId]);
 
   // Make callback available globally for reCAPTCHA
   useEffect(() => {
@@ -139,6 +140,37 @@ const ContactUs = () => {
       delete window.onRecaptchaVerify;
     };
   }, [onRecaptchaVerify]);
+
+  // Render reCAPTCHA widget explicitly after component mounts
+  useEffect(() => {
+    const renderRecaptcha = () => {
+      if (window.grecaptcha && recaptchaRef.current && recaptchaWidgetId === null) {
+        try {
+          const widgetId = window.grecaptcha.render(recaptchaRef.current, {
+            sitekey: RECAPTCHA_SITE_KEY,
+            size: "invisible",
+            callback: onRecaptchaVerify,
+          });
+          setRecaptchaWidgetId(widgetId);
+        } catch (error) {
+          // Widget might already be rendered
+          console.log("reCAPTCHA already rendered");
+        }
+      }
+    };
+
+    // Check if grecaptcha is already loaded
+    if (window.grecaptcha && window.grecaptcha.render) {
+      renderRecaptcha();
+    } else {
+      // Wait for grecaptcha to load
+      window.onRecaptchaLoad = renderRecaptcha;
+    }
+
+    return () => {
+      delete window.onRecaptchaLoad;
+    };
+  }, [RECAPTCHA_SITE_KEY, onRecaptchaVerify, recaptchaWidgetId]);
 
   // Actual form submission logic
   const submitForm = async (formData, form) => {
@@ -470,14 +502,8 @@ const ContactUs = () => {
                 </div>
               )}
 
-              {/* Invisible reCAPTCHA */}
-              <div
-                ref={recaptchaRef}
-                className="g-recaptcha"
-                data-sitekey={RECAPTCHA_SITE_KEY}
-                data-callback="onRecaptchaVerify"
-                data-size="invisible"
-              ></div>
+              {/* Invisible reCAPTCHA - rendered via JavaScript */}
+              <div ref={recaptchaRef}></div>
 
               <button
                 type="submit"
