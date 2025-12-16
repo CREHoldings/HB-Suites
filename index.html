@@ -75,15 +75,13 @@
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" />
+
+    <!-- Google reCAPTCHA v2 Invisible -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <!-- Hidden form for Netlify Forms detection -->
-    <form
-      name="contact"
-      netlify
-      netlify-honeypot="bot-field"
-      hidden
-    >
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="bot-field" />
       <input type="text" name="firstName" />
       <input type="text" name="lastName" />

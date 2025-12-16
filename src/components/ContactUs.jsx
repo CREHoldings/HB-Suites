@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -6,15 +6,20 @@ import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ContactUs = () => {
+  // reCAPTCHA v2 Invisible Site Key (from environment variable)
+  const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
   const [formState, setFormState] = useState({
     submitting: false,
     success: false,
     error: false,
   });
   const [formStartTime, setFormStartTime] = useState(null);
+  const formRef = useRef(null);
+  const recaptchaRef = useRef(null);
 
   // Set form start time when component mounts (human interaction detection)
-  useState(() => {
+  useEffect(() => {
     setFormStartTime(Date.now());
   }, []);
 
@@ -98,6 +103,45 @@ const ContactUs = () => {
 
     setFormState({ submitting: true, success: false, error: false });
 
+    // Execute invisible reCAPTCHA
+    if (window.grecaptcha && recaptchaRef.current) {
+      window.grecaptcha.execute();
+      return; // The actual submission happens in onRecaptchaVerify
+    }
+
+    // Fallback: submit without reCAPTCHA (for development)
+    await submitForm(formData, form);
+  };
+
+  // Handle reCAPTCHA verification callback
+  const onRecaptchaVerify = useCallback(async (token) => {
+    if (!token) {
+      setFormState({ submitting: false, success: false, error: true });
+      return;
+    }
+
+    const form = formRef.current;
+    const formData = new FormData(form);
+    formData.append("g-recaptcha-response", token);
+
+    await submitForm(formData, form);
+
+    // Reset reCAPTCHA for next submission
+    if (window.grecaptcha) {
+      window.grecaptcha.reset();
+    }
+  }, []);
+
+  // Make callback available globally for reCAPTCHA
+  useEffect(() => {
+    window.onRecaptchaVerify = onRecaptchaVerify;
+    return () => {
+      delete window.onRecaptchaVerify;
+    };
+  }, [onRecaptchaVerify]);
+
+  // Actual form submission logic
+  const submitForm = async (formData, form) => {
     // Check if we're in development mode
     const isDevelopment =
       window.location.hostname === "localhost" ||
@@ -266,6 +310,7 @@ const ContactUs = () => {
             </p>
 
             <form
+              ref={formRef}
               name="contact"
               method="POST"
               data-netlify="true"
@@ -424,6 +469,15 @@ const ContactUs = () => {
                   submitting. Ensure your email and phone number are valid.
                 </div>
               )}
+
+              {/* Invisible reCAPTCHA */}
+              <div
+                ref={recaptchaRef}
+                className="g-recaptcha"
+                data-sitekey={RECAPTCHA_SITE_KEY}
+                data-callback="onRecaptchaVerify"
+                data-size="invisible"
+              ></div>
 
               <button
                 type="submit"
