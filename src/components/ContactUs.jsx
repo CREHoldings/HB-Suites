@@ -425,12 +425,6 @@ const ContactUs = () => {
                 </div>
               )}
 
-              {/* Netlify reCAPTCHA - Server-side bot protection */}
-              <div
-                data-netlify-recaptcha="true"
-                className="flex justify-center"
-              ></div>
-
               <button
                 type="submit"
                 disabled={formState.submitting}
