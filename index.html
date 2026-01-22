@@ -77,6 +77,10 @@
     <meta name="theme-color" content="#000000" />
 
     <!-- Google reCAPTCHA v2 Invisible -->
+    <script>
+  // Prevent "couldn't find user-provided function" on initial page load
+  window.onRecaptchaLoad = window.onRecaptchaLoad || function () {};
+</script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
   </head>
   <body>
