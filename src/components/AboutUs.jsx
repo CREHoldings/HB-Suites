@@ -67,6 +67,7 @@ const AboutUs = () => {
       ease: "power2.out",
     });
 
+    // Animate p1 and p2 normally without splitting into lines
     gsap.set(["#about_p1", "#about_p2"], { opacity: 0, y: 30 });
     tl.to(["#about_p1", "#about_p2"], {
       opacity: 1,
