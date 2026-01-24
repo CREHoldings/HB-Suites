@@ -49,10 +49,11 @@ const AboutUs = () => {
     });
 
     // Create SplitText instance for heading only, not for paragraphs
-    const about_split = SplitText.create(
-      ["#about_heading"],
-      { type: "lines", mask: "lines", linesClass: "line" }
-    );
+    const about_split = SplitText.create(["#about_heading"], {
+      type: "lines",
+      mask: "lines",
+      linesClass: "line",
+    });
 
     // Set initial state for heading lines
     gsap.set(about_split.lines, { opacity: 0, y: 30 });
@@ -66,7 +67,6 @@ const AboutUs = () => {
       ease: "power2.out",
     });
 
-    // Animate p1 and p2 normally without splitting into lines
     gsap.set(["#about_p1", "#about_p2"], { opacity: 0, y: 30 });
     tl.to(["#about_p1", "#about_p2"], {
       opacity: 1,
@@ -145,7 +145,8 @@ const AboutUs = () => {
               id="about_p1"
               className="mb-4 text-base md:text-lg poppins-regular whitespace-normal"
             >
-              Modern, all-inclusive beauty and wellness spaces built to elevate professionals and entrepreneurs.
+              Modern, all-inclusive beauty and wellness spaces built to elevate
+              professionals and entrepreneurs.
             </p>
 
             <p
