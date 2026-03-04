@@ -12,7 +12,27 @@ export async function handler(event) {
     const formData = JSON.parse(event.body);
     const turnstileToken = formData["cf-turnstile-response"];
 
-    // Verify Turnstile token with Cloudflare
+    // STEP 1: Save to backup form FIRST (contact-all) - captures all leads
+    const backupFormData = new URLSearchParams();
+    backupFormData.append("form-name", "contact-all");
+    backupFormData.append("firstName", formData.firstName);
+    backupFormData.append("lastName", formData.lastName);
+    backupFormData.append("email", formData.email);
+    backupFormData.append("phoneNumber", formData.phoneNumber);
+    backupFormData.append("businessType", formData.businessType);
+    backupFormData.append("message", formData.message);
+    backupFormData.append("verificationStatus", "pending");
+
+    // Submit to backup form (don't wait for response, fire and forget)
+    fetch(`${process.env.URL}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: backupFormData.toString(),
+    }).catch((err) => console.log("Backup form submission error:", err));
+
+    // STEP 2: Verify Turnstile token with Cloudflare
     const turnstileResponse = await fetch(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       {
@@ -33,6 +53,7 @@ export async function handler(event) {
 
     if (!turnstileResult.success) {
       console.log("Turnstile verification failed:", turnstileResult);
+      // Lead is already saved in backup form, but reject this submission
       return {
         statusCode: 400,
         body: JSON.stringify({
@@ -41,8 +62,7 @@ export async function handler(event) {
       };
     }
 
-    // Turnstile verified - submit to Netlify Forms
-    // Build URL-encoded form data for Netlify
+    // STEP 3: Turnstile verified - submit to main contact form
     const netlifyFormData = new URLSearchParams();
     netlifyFormData.append("form-name", "contact");
     netlifyFormData.append("firstName", formData.firstName);
@@ -52,7 +72,7 @@ export async function handler(event) {
     netlifyFormData.append("businessType", formData.businessType);
     netlifyFormData.append("message", formData.message);
 
-    // Submit to Netlify Forms
+    // Submit to verified contact form
     const netlifyResponse = await fetch(`${process.env.URL}/`, {
       method: "POST",
       headers: {
