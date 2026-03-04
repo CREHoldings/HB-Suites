@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -6,173 +6,75 @@ import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ContactUs = () => {
-  // reCAPTCHA v2 Invisible Site Key (from environment variable)
-  const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  // Cloudflare Turnstile Site Key
+  const TURNSTILE_SITE_KEY = "0x4AAAAAACl5UPLIheWTpm7h";
 
   const [formState, setFormState] = useState({
     submitting: false,
     success: false,
     error: false,
   });
-  const [formStartTime, setFormStartTime] = useState(null);
-  const [recaptchaWidgetId, setRecaptchaWidgetId] = useState(null);
+  const [turnstileToken, setTurnstileToken] = useState(null);
   const formRef = useRef(null);
-  const recaptchaRef = useRef(null);
+  const turnstileRef = useRef(null);
+  const turnstileWidgetId = useRef(null);
 
-  // Set form start time when component mounts (human interaction detection)
+  // Render Cloudflare Turnstile widget
   useEffect(() => {
-    setFormStartTime(Date.now());
-  }, []);
+    const renderTurnstile = () => {
+      if (
+        window.turnstile &&
+        turnstileRef.current &&
+        !turnstileWidgetId.current
+      ) {
+        turnstileWidgetId.current = window.turnstile.render(
+          turnstileRef.current,
+          {
+            sitekey: TURNSTILE_SITE_KEY,
+            callback: (token) => setTurnstileToken(token),
+            "expired-callback": () => setTurnstileToken(null),
+            "error-callback": () => setTurnstileToken(null),
+          },
+        );
+      }
+    };
+
+    // Check if turnstile is already loaded
+    if (window.turnstile) {
+      renderTurnstile();
+    } else {
+      // Wait for turnstile to load
+      window.onTurnstileLoad = renderTurnstile;
+    }
+
+    return () => {
+      if (turnstileWidgetId.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId.current);
+        turnstileWidgetId.current = null;
+      }
+      delete window.onTurnstileLoad;
+    };
+  }, [TURNSTILE_SITE_KEY]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Verify Turnstile token is present
+    if (!turnstileToken) {
+      setFormState({ submitting: false, success: false, error: true });
+      return;
+    }
+
     const form = e.target;
     const formData = new FormData(form);
-
-    // Bot Detection 1: Check honeypot field
-    const honeypot = formData.get("bot-field");
-    if (honeypot) {
-      console.log("Bot detected: honeypot filled");
-      return; // Silently reject bot submissions
-    }
-
-    // Bot Detection 2: Time-based validation (humans take at least 3 seconds to fill a form)
-    const submissionTime = Date.now();
-    const timeSpent = (submissionTime - formStartTime) / 1000; // in seconds
-    if (timeSpent < 3) {
-      console.log("Bot detected: form submitted too quickly");
-      return; // Silently reject bot submissions
-    }
-
-    // Bot Detection 3: Check for suspicious patterns (like "hbsuites" in names)
-    const firstName = formData.get("firstName")?.trim().toLowerCase();
-    const lastName = formData.get("lastName")?.trim().toLowerCase();
-    const suspiciousPatterns = [
-      "hbsuites",
-      "hb-suites",
-      "test",
-      "admin",
-      "bot",
-      "spam",
-    ];
-
-    const isSuspicious = suspiciousPatterns.some(
-      (pattern) => firstName?.includes(pattern) || lastName?.includes(pattern)
-    );
-
-    if (isSuspicious) {
-      console.log("Bot detected: suspicious name pattern");
-      setFormState({ submitting: false, success: false, error: true });
-      return;
-    }
-
-    // Validate all required fields are filled
-    const requiredFields = [
-      "firstName",
-      "lastName",
-      "email",
-      "phoneNumber",
-      "businessType",
-      "message",
-    ];
-    const emptyFields = requiredFields.filter((field) => {
-      const value = formData.get(field);
-      return !value || value.trim() === "";
-    });
-
-    if (emptyFields.length > 0) {
-      setFormState({ submitting: false, success: false, error: true });
-      return;
-    }
-
-    // Validate email format
-    const email = formData.get("email");
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setFormState({ submitting: false, success: false, error: true });
-      return;
-    }
-
-    // Validate phone number (at least 7 digits)
-    const phone = formData.get("phoneNumber");
-    const phoneDigits = phone.replace(/\D/g, "");
-    if (phoneDigits.length < 7) {
-      setFormState({ submitting: false, success: false, error: true });
-      return;
-    }
+    formData.append("cf-turnstile-response", turnstileToken);
 
     setFormState({ submitting: true, success: false, error: false });
 
-    // Execute invisible reCAPTCHA
-    if (window.grecaptcha && recaptchaWidgetId !== null) {
-      window.grecaptcha.execute(recaptchaWidgetId);
-      return; // The actual submission happens in onRecaptchaVerify
-    }
-
-    // Fallback: submit without reCAPTCHA (for development)
     await submitForm(formData, form);
   };
 
-  // Handle reCAPTCHA verification callback
-  const onRecaptchaVerify = useCallback(async (token) => {
-    if (!token) {
-      setFormState({ submitting: false, success: false, error: true });
-      return;
-    }
-
-    const form = formRef.current;
-    const formData = new FormData(form);
-    formData.append("g-recaptcha-response", token);
-
-    await submitForm(formData, form);
-
-    // Reset reCAPTCHA for next submission
-    if (window.grecaptcha && recaptchaWidgetId !== null) {
-      window.grecaptcha.reset(recaptchaWidgetId);
-    }
-  }, [recaptchaWidgetId]);
-
-  // Make callback available globally for reCAPTCHA
-  useEffect(() => {
-    window.onRecaptchaVerify = onRecaptchaVerify;
-    return () => {
-      delete window.onRecaptchaVerify;
-    };
-  }, [onRecaptchaVerify]);
-
-  // Render reCAPTCHA widget explicitly after component mounts
-  useEffect(() => {
-    const renderRecaptcha = () => {
-      if (window.grecaptcha && recaptchaRef.current && recaptchaWidgetId === null) {
-        try {
-          const widgetId = window.grecaptcha.render(recaptchaRef.current, {
-            sitekey: RECAPTCHA_SITE_KEY,
-            size: "invisible",
-            callback: onRecaptchaVerify,
-          });
-          setRecaptchaWidgetId(widgetId);
-        } catch (error) {
-          // Widget might already be rendered
-          console.log("reCAPTCHA already rendered");
-        }
-      }
-    };
-
-    // Check if grecaptcha is already loaded
-    if (window.grecaptcha && window.grecaptcha.render) {
-      renderRecaptcha();
-    } else {
-      // Wait for grecaptcha to load
-      window.onRecaptchaLoad = renderRecaptcha;
-    }
-
-    return () => {
-      delete window.onRecaptchaLoad;
-    };
-  }, [RECAPTCHA_SITE_KEY, onRecaptchaVerify, recaptchaWidgetId]);
-
-  // Actual form submission logic
+  // Form submission logic
   const submitForm = async (formData, form) => {
     // Check if we're in development mode
     const isDevelopment =
@@ -184,35 +86,58 @@ const ContactUs = () => {
         // Simulate form submission in development
         console.log(
           "Form data (development mode):",
-          Object.fromEntries(formData)
+          Object.fromEntries(formData),
         );
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
         setFormState({ submitting: false, success: true, error: false });
         form.reset();
+        // Reset Turnstile widget
+        if (window.turnstile && turnstileWidgetId.current) {
+          window.turnstile.reset(turnstileWidgetId.current);
+          setTurnstileToken(null);
+        }
         setTimeout(() => {
           setFormState({ submitting: false, success: false, error: false });
         }, 5000);
         return;
       }
 
-      // Production: Submit to Netlify
-      const response = await fetch("/", {
+      // Production: Submit to Netlify Function for Turnstile verification
+      const jsonData = {
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        email: formData.get("email"),
+        phoneNumber: formData.get("phoneNumber"),
+        businessType: formData.get("businessType"),
+        message: formData.get("message"),
+        "cf-turnstile-response": formData.get("cf-turnstile-response"),
+      };
+
+      const response = await fetch("/.netlify/functions/submit-contact", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonData),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setFormState({ submitting: false, success: true, error: false });
         form.reset();
+        // Reset Turnstile widget
+        if (window.turnstile && turnstileWidgetId.current) {
+          window.turnstile.reset(turnstileWidgetId.current);
+          setTurnstileToken(null);
+        }
         // Reset success message after 5 seconds
         setTimeout(() => {
           setFormState({ submitting: false, success: false, error: false });
         }, 5000);
       } else {
-        throw new Error("Form submission failed");
+        throw new Error(result.error || "Form submission failed");
       }
     } catch (error) {
+      console.error("Form submission error:", error);
       setFormState({ submitting: false, success: false, error: true });
     }
   };
@@ -234,7 +159,7 @@ const ContactUs = () => {
         type: "lines",
         mask: "lines",
         linesClass: "line",
-      }
+      },
     );
 
     // Set initial state for lines
@@ -346,26 +271,11 @@ const ContactUs = () => {
               name="contact"
               method="POST"
               data-netlify="true"
-              netlify-honeypot="bot-field"
-              data-netlify-recaptcha="true"
               onSubmit={handleSubmit}
               className="space-y-4 sm:space-y-6 poppins-regular"
             >
               {/* Hidden field for Netlify Forms */}
               <input type="hidden" name="form-name" value="contact" />
-
-              {/* Honeypot field for spam protection - hidden from users */}
-              <div
-                style={{ position: "absolute", left: "-5000px" }}
-                aria-hidden="true"
-              >
-                <input
-                  type="text"
-                  name="bot-field"
-                  tabIndex="-1"
-                  autoComplete="off"
-                />
-              </div>
 
               <div>
                 <label
@@ -502,8 +412,8 @@ const ContactUs = () => {
                 </div>
               )}
 
-              {/* Invisible reCAPTCHA - rendered via JavaScript */}
-              <div ref={recaptchaRef}></div>
+              {/* Cloudflare Turnstile Widget */}
+              <div ref={turnstileRef} className="flex justify-center"></div>
 
               <button
                 type="submit"

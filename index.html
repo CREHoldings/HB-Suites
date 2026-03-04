@@ -90,9 +90,6 @@
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" />
-
-    <!-- Google reCAPTCHA v2 Invisible -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeybmksAAAAAMAiTxgFGeK6i8hS3-QvOjsV7Lkx"></script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -106,9 +103,11 @@
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
+
     <!-- Hidden form for Netlify Forms detection -->
-    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="bot-field" />
+    <form name="contact" netlify hidden>
       <input type="text" name="firstName" />
       <input type="text" name="lastName" />
       <input type="email" name="email" />
@@ -124,7 +123,7 @@
         <option value="other">Other</option>
       </select>
       <textarea name="message"></textarea>
-      <div data-netlify-recaptcha="true"></div>
+      <input type="hidden" name="cf-turnstile-response" />
     </form>
 
     <div id="root"></div>
