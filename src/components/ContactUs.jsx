@@ -236,7 +236,7 @@ const ContactUs = () => {
                   <div className="text-sm md:text-base sm:text-base">
                     <h4 className="font-semibold heading-custom">Phone</h4>
                     <p className="mt-1">
-                      719 602 5511
+                      719.985.3062
                       <br />
                       Mon - Fri: 8:00 AM - 6:00 PM
                     </p>
