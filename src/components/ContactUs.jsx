@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, X, CheckCircle } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
@@ -15,6 +15,7 @@ const ContactUs = () => {
     error: false,
   });
   const [turnstileToken, setTurnstileToken] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const formRef = useRef(null);
   const turnstileRef = useRef(null);
   const turnstileWidgetId = useRef(null);
@@ -39,11 +40,9 @@ const ContactUs = () => {
       }
     };
 
-    // Check if turnstile is already loaded
     if (window.turnstile) {
       renderTurnstile();
     } else {
-      // Wait for turnstile to load
       window.onTurnstileLoad = renderTurnstile;
     }
 
@@ -59,86 +58,49 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verify Turnstile token is present
     if (!turnstileToken) {
       setFormState({ submitting: false, success: false, error: true });
       return;
     }
 
     const form = e.target;
-    const formData = new FormData(form);
-    formData.append("cf-turnstile-response", turnstileToken);
-
     setFormState({ submitting: true, success: false, error: false });
 
-    await submitForm(formData, form);
-  };
-
-  // Form submission logic
-  const submitForm = async (formData, form) => {
-    // Check if we're in development mode
-    const isDevelopment =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
-
     try {
-      if (isDevelopment) {
-        // Simulate form submission in development
-        console.log(
-          "Form data (development mode):",
-          Object.fromEntries(formData),
-        );
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-        setFormState({ submitting: false, success: true, error: false });
-        form.reset();
-        // Reset Turnstile widget
-        if (window.turnstile && turnstileWidgetId.current) {
-          window.turnstile.reset(turnstileWidgetId.current);
-          setTurnstileToken(null);
-        }
-        setTimeout(() => {
-          setFormState({ submitting: false, success: false, error: false });
-        }, 5000);
-        return;
-      }
+      const formData = new URLSearchParams();
+      formData.append("form-name", "contact");
+      formData.append("firstName", form.firstName.value);
+      formData.append("lastName", form.lastName.value);
+      formData.append("email", form.email.value);
+      formData.append("phoneNumber", form.phoneNumber.value);
+      formData.append("businessType", form.businessType.value);
+      formData.append("message", form.message.value);
+      formData.append("cf-turnstile-response", turnstileToken);
 
-      // Production: Submit to Netlify Function for Turnstile verification
-      const jsonData = {
-        firstName: formData.get("firstName"),
-        lastName: formData.get("lastName"),
-        email: formData.get("email"),
-        phoneNumber: formData.get("phoneNumber"),
-        businessType: formData.get("businessType"),
-        message: formData.get("message"),
-        "cf-turnstile-response": formData.get("cf-turnstile-response"),
-      };
-
-      const response = await fetch("/.netlify/functions/submit-contact", {
+      const response = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(jsonData),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString(),
       });
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
+      if (response.ok) {
         setFormState({ submitting: false, success: true, error: false });
+        setShowConfirmation(true);
         form.reset();
+
         // Reset Turnstile widget
         if (window.turnstile && turnstileWidgetId.current) {
           window.turnstile.reset(turnstileWidgetId.current);
           setTurnstileToken(null);
         }
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setFormState({ submitting: false, success: false, error: false });
-        }, 5000);
       } else {
-        throw new Error(result.error || "Form submission failed");
+        throw new Error("Submission failed");
       }
     } catch (error) {
       console.error("Form submission error:", error);
       setFormState({ submitting: false, success: false, error: true });
+      // Still show confirmation popup on error so visitor has contact info
+      setShowConfirmation(true);
     }
   };
 
@@ -152,7 +114,6 @@ const ContactUs = () => {
       },
     });
 
-    // Create SplitText instance for the content
     const contact_split = SplitText.create(
       ["#contact_heading_title", "#contact_heading_description"],
       {
@@ -162,13 +123,11 @@ const ContactUs = () => {
       },
     );
 
-    // Set initial state for lines
     gsap.set(contact_split.lines, {
       opacity: 0,
       y: 30,
     });
 
-    // Animate in lines with stagger
     tl.to(contact_split.lines, {
       opacity: 1,
       y: 0,
@@ -183,6 +142,71 @@ const ContactUs = () => {
       id="contact-section"
       className="py-12 sm:py-16 bg-light-custom text-custom"
     >
+      {/* Confirmation Pop-up Modal */}
+      {showConfirmation && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+          <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-2xl">
+            <button
+              onClick={() => setShowConfirmation(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex flex-col items-center text-center">
+              <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
+
+              <h2 className="text-2xl font-semibold mb-4 bebas-neue-regular heading-custom">
+                Thank You!
+              </h2>
+
+              <p className="text-sm md:text-base poppins-regular text-gray-700 mb-6 leading-relaxed">
+                Thank you for contacting HB Suites. Sometimes we have
+                technological glitches and we want to hear from you! If you
+                would like to schedule a showing today or have questions about
+                HB Suites, please contact Christine directly at{" "}
+                <a
+                  href="tel:7199853062"
+                  className="font-semibold text-black hover:underline"
+                >
+                  719.985.3062
+                </a>{" "}
+                or{" "}
+                <a
+                  href="mailto:hbsuitesco@gmail.com"
+                  className="font-semibold text-black hover:underline"
+                >
+                  hbsuitesco@gmail.com
+                </a>
+              </p>
+
+              <div className="w-full space-y-2 text-sm poppins-regular text-gray-600 border-t pt-4">
+                <div className="flex items-center justify-center gap-2">
+                  <Phone className="w-4 h-4 text-secondary-custom" />
+                  <span>719.985.3062</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Mail className="w-4 h-4 text-secondary-custom" />
+                  <span>hbsuitesco@gmail.com</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <MapPin className="w-4 h-4 text-secondary-custom" />
+                  <span>1819 N Circle Drive, Colorado Springs, CO 80909</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowConfirmation(false)}
+                className="mt-6 w-full px-6 py-3 text-sm font-semibold text-white bg-black hover:bg-black/90 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="flex items-center justify-center mb-8 sm:mb-12">
@@ -274,7 +298,7 @@ const ContactUs = () => {
               onSubmit={handleSubmit}
               className="space-y-4 sm:space-y-6 poppins-regular"
             >
-              {/* Hidden field for Netlify Forms */}
+              {/* Required hidden field for Netlify Forms */}
               <input type="hidden" name="form-name" value="contact" />
 
               <div>
@@ -365,7 +389,7 @@ const ContactUs = () => {
                     id="businessType"
                     name="businessType"
                     required
-                    className="w-full p-3  cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
+                    className="w-full p-3 cursor-pointer text-sm md:text-base sm:text-base border border-custom input-bg-custom focus:outline-none focus:ring-2 focus:ring-secondary-custom"
                   >
                     <option value="">Select your business type</option>
                     <option value="hairstylist">Hairstylist</option>
@@ -398,17 +422,11 @@ const ContactUs = () => {
                 ></textarea>
               </div>
 
-              {formState.success && (
-                <div className="p-4 text-sm text-center text-green-800 bg-green-100 border border-green-400 rounded-md">
-                  Thank you! Your message has been sent successfully. We'll
-                  contact you within 24 hours.
-                </div>
-              )}
-
               {formState.error && (
                 <div className="p-4 text-sm text-center text-red-800 bg-red-100 border border-red-400 rounded-md">
-                  Please fill in all required fields correctly before
-                  submitting. Ensure your email and phone number are valid.
+                  There was an issue submitting the form. Please try again or
+                  contact Christine directly at 719.985.3062 or
+                  hbsuitesco@gmail.com
                 </div>
               )}
 
@@ -417,7 +435,7 @@ const ContactUs = () => {
 
               <button
                 type="submit"
-                disabled={formState.submitting}
+                disabled={formState.submitting || !turnstileToken}
                 className="w-full px-6 py-3 text-sm md:text-base sm:text-base font-semibold text-white transition-colors bg-black hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {formState.submitting ? "Submitting..." : "Schedule Your Tour"}
