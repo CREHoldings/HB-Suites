@@ -107,7 +107,8 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
 
     <!-- Hidden form for Netlify Forms detection -->
-    <form name="contact" netlify hidden>
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="bot-field" />
       <input type="text" name="firstName" />
       <input type="text" name="lastName" />
       <input type="email" name="email" />
@@ -124,26 +125,6 @@
       </select>
       <textarea name="message"></textarea>
       <input type="hidden" name="cf-turnstile-response" />
-    </form>
-
-    <!-- Backup form for all submissions (including potential bots) -->
-    <form name="contact-all" netlify hidden>
-      <input type="text" name="firstName" />
-      <input type="text" name="lastName" />
-      <input type="email" name="email" />
-      <input type="tel" name="phoneNumber" />
-      <select name="businessType">
-        <option value="hairstylist">Hairstylist</option>
-        <option value="esthetician">Esthetician</option>
-        <option value="massage_therapist">Massage Therapist</option>
-        <option value="nail_tech">Nail Technician</option>
-        <option value="cosmetologist">Cosmetologist</option>
-        <option value="barber">Barber</option>
-        <option value="spa_therapist">Spa Therapist</option>
-        <option value="other">Other</option>
-      </select>
-      <textarea name="message"></textarea>
-      <input type="text" name="verificationStatus" />
     </form>
 
     <div id="root"></div>
