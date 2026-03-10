@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { MapPin, Phone, Mail, X, CheckCircle } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -137,75 +138,72 @@ const ContactUs = () => {
     });
   }, []);
 
+  const modal = showConfirmation ? createPortal(
+    <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 2147483647}}>
+      <div style={{position: 'relative', width: '100%', maxWidth: '28rem', padding: '2rem', backgroundColor: 'white', borderRadius: '0.5rem', boxShadow: '0 25px 50px rgba(0,0,0,0.25)'}}>
+        <button
+          onClick={() => setShowConfirmation(false)}
+          style={{position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af'}}
+          aria-label="Close"
+        >
+          <X style={{width: '1.25rem', height: '1.25rem'}} />
+        </button>
+
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+          <CheckCircle style={{width: '3rem', height: '3rem', color: '#22c55e', marginBottom: '1rem'}} />
+
+          <h2 style={{fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem', fontFamily: 'Bebas Neue, sans-serif'}}>
+            Thank You!
+          </h2>
+
+          <p style={{fontSize: '0.875rem', color: '#374151', marginBottom: '1.5rem', lineHeight: '1.6'}}>
+            Thank you for contacting HB Suites. Sometimes we have
+            technological glitches and we want to hear from you! If you
+            would like to schedule a showing today or have questions about
+            HB Suites, please contact Christine directly at{" "}
+            <a href="tel:7199853062" style={{fontWeight: '600', color: 'black'}}>
+              719.985.3062
+            </a>{" "}
+            or{" "}
+            <a href="mailto:hbsuitesco@gmail.com" style={{fontWeight: '600', color: 'black'}}>
+              hbsuitesco@gmail.com
+            </a>
+          </p>
+
+          <div style={{width: '100%', borderTop: '1px solid #e5e7eb', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem', color: '#4b5563'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'}}>
+              <Phone style={{width: '1rem', height: '1rem'}} />
+              <span>719.985.3062</span>
+            </div>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'}}>
+              <Mail style={{width: '1rem', height: '1rem'}} />
+              <span>hbsuitesco@gmail.com</span>
+            </div>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'}}>
+              <MapPin style={{width: '1rem', height: '1rem'}} />
+              <span>1819 N Circle Drive, Colorado Springs, CO 80909</span>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setShowConfirmation(false)}
+            style={{marginTop: '1.5rem', width: '100%', padding: '0.75rem 1.5rem', fontSize: '0.875rem', fontWeight: '600', color: 'white', backgroundColor: 'black', border: 'none', cursor: 'pointer'}}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  ) : null;
+
   return (
+    <>
+      {modal}
     <section
       id="contact-section"
       className="py-12 sm:py-16 bg-light-custom text-custom"
     >
-      {/* Confirmation Pop-up Modal */}
-      {showConfirmation && (
-        <div style={{position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 2147483647}}>
-          <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-2xl">
-            <button
-              onClick={() => setShowConfirmation(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex flex-col items-center text-center">
-              <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
-
-              <h2 className="text-2xl font-semibold mb-4 bebas-neue-regular heading-custom">
-                Thank You!
-              </h2>
-
-              <p className="text-sm md:text-base poppins-regular text-gray-700 mb-6 leading-relaxed">
-                Thank you for contacting HB Suites. Sometimes we have
-                technological glitches and we want to hear from you! If you
-                would like to schedule a showing today or have questions about
-                HB Suites, please contact Christine directly at{" "}
-                <a
-                  href="tel:7199853062"
-                  className="font-semibold text-black hover:underline"
-                >
-                  719.985.3062
-                </a>{" "}
-                or{" "}
-                <a
-                  href="mailto:hbsuitesco@gmail.com"
-                  className="font-semibold text-black hover:underline"
-                >
-                  hbsuitesco@gmail.com
-                </a>
-              </p>
-
-              <div className="w-full space-y-2 text-sm poppins-regular text-gray-600 border-t pt-4">
-                <div className="flex items-center justify-center gap-2">
-                  <Phone className="w-4 h-4 text-secondary-custom" />
-                  <span>719.985.3062</span>
-                </div>
-                <div className="flex items-center justify-center gap-2">
-                  <Mail className="w-4 h-4 text-secondary-custom" />
-                  <span>hbsuitesco@gmail.com</span>
-                </div>
-                <div className="flex items-center justify-center gap-2">
-                  <MapPin className="w-4 h-4 text-secondary-custom" />
-                  <span>1819 N Circle Drive, Colorado Springs, CO 80909</span>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setShowConfirmation(false)}
-                className="mt-6 w-full px-6 py-3 text-sm font-semibold text-white bg-black hover:bg-black/90 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header Section */}
@@ -450,6 +448,7 @@ const ContactUs = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
