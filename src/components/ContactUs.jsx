@@ -144,7 +144,7 @@ const ContactUs = () => {
     >
       {/* Confirmation Pop-up Modal */}
       {showConfirmation && (
-        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/60" style={{zIndex: 999999}}>
+        <div style={{position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 2147483647}}>
           <div className="relative w-full max-w-md p-8 bg-white rounded-lg shadow-2xl">
             <button
               onClick={() => setShowConfirmation(false)}
