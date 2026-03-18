@@ -3,7 +3,7 @@
     { "id": "1", "status": "leased" },
     { "id": "2", "status": "leased" },
     { "id": "3", "status": "leased" },
-    { "id": "4", "status": "leased" },
+    { "id": "4", "status": "available" },
     { "id": "5", "status": "leased" },
     { "id": "6", "status": "leased" },
     { "id": "7", "status": "leased" },
